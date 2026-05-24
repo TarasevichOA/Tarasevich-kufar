@@ -17,7 +17,7 @@ public class AuthFormTest extends BaseTest {
     public void setupAuth() {
         homePage.clickButtonAuth();
         homePage.clickCookies();
-        authFormPage = new AuthFormPage(driver);
+        authFormPage = new AuthFormPage();
     }
 
     @DisplayName("Проверка заголовка в форме регистрации с пустыми значением")

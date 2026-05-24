@@ -12,9 +12,8 @@ public class SearchPage extends BasePage {
     private final String FIRST_PRODUCT = "//h3[@class='styles_title__F3uIe' and text() = 'Механизм для открывания межкомнатных дверей.']";
 
 
-    public SearchPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+    public SearchPage() {
+        super();
     }
 
     public String getSearchInputPlaceholder() {

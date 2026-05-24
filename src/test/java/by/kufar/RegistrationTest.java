@@ -17,9 +17,9 @@ public class RegistrationTest extends BaseTest {
     public void setupRegistration() {
         homePage.clickCookies();
         homePage.clickButtonAuth();
-        authFormPage = new AuthFormPage(driver);
+        authFormPage = new AuthFormPage();
         authFormPage.clickLinkRegistration();
-        registrationPage = new RegistrationPage(driver);
+        registrationPage = new RegistrationPage();
     }
 
     @DisplayName("Проверка формы регистрации с пустыми email")

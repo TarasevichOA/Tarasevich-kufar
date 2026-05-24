@@ -25,9 +25,8 @@ public class AuthFormPage extends BasePage {
     private final String LINK_FORGOT_PASSWORD = "//a[@href='https://www.kufar.by/account/recovery']";
     private final String BUTTON_CLOSE = "//img[@alt='Close']";
 
-    public AuthFormPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    public AuthFormPage() {
+        super();
     }
 
     public String getTitleText() {

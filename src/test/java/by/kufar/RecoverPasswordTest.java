@@ -27,7 +27,7 @@ public class RecoverPasswordTest {
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
 
-        recoverPasswordPage = new RecoverPasswordPage(driver);
+        recoverPasswordPage = new RecoverPasswordPage();
         recoverPasswordPage.open();
         recoverPasswordPage.clickCookies();
     }

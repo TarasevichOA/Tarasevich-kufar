@@ -19,9 +19,8 @@ public class HomePage extends BasePage {
     private final String COOKIES = "//*[@id=\"__next\"]/div[2]/div/div/div/div/button[2]";
     private final String EMPTY_RESULT = "//*[contains(text(), 'Мы это не нашли')]";
 
-    public HomePage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, DEFAULT_WAIT);
+    public HomePage() {
+        super();
     }
 
     public void open() {
@@ -29,7 +28,6 @@ public class HomePage extends BasePage {
     }
 
     public void clickCookies() {
-        //WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement cookies = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(COOKIES)));
         cookies.click();
     }

@@ -19,9 +19,8 @@ public class RecoverPasswordPage extends BasePage {
 
     private final String URL_RECOVER_PASSWORD = "https://www.kufar.by/account/recovery";
 
-    public RecoverPasswordPage(WebDriver driver) {
+    public RecoverPasswordPage() {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     public void open() {
