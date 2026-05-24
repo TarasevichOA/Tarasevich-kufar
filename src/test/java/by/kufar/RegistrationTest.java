@@ -127,5 +127,4 @@ public class RegistrationTest extends BaseTest {
                 "Текст ошибки должен начинаться с верной фразы, а пришло: " + actualError);
         Assertions.assertEquals("Пароли не совпадают. Введите пароль заново", registrationPage.getErrorMessageRepeatPassword());
     }
-
 }

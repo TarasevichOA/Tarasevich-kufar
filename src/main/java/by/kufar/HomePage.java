@@ -11,6 +11,7 @@ import java.time.Duration;
 
 public class HomePage extends BasePage {
     private final String URL = "https://www.kufar.by/";
+    private final Duration DEFAULT_WAIT = Duration.ofSeconds(10);
     private final String INPUT_SEARCH = "//input[@placeholder = 'Поиск объявлений']";
     private final String BUTTON_AUTH = "//button[text()='Войти']";
     private final String BUTTON_SEARCH = "//button[@class='styles_search_button__Ro1wM']";
@@ -20,7 +21,7 @@ public class HomePage extends BasePage {
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.wait = new WebDriverWait(driver, DEFAULT_WAIT);
     }
 
     public void open() {
@@ -28,7 +29,7 @@ public class HomePage extends BasePage {
     }
 
     public void clickCookies() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        //WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement cookies = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(COOKIES)));
         cookies.click();
     }

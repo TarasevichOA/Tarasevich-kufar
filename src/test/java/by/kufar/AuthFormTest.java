@@ -1,5 +1,8 @@
 package by.kufar;
 
+import net.datafaker.Faker;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -8,6 +11,7 @@ import org.openqa.selenium.WebElement;
 
 public class AuthFormTest extends BaseTest {
     private AuthFormPage authFormPage;
+    static final Logger logger = LogManager.getLogger();
 
     @BeforeEach
     public void setupAuth() {
@@ -28,16 +32,23 @@ public class AuthFormTest extends BaseTest {
         authFormPage.setInputName("");
         authFormPage.setInputPassword("");
         authFormPage.setInputName("");
+        logger.info("User doesn't enter any value to Name and Password field.");
 
         Assertions.assertEquals("Заполните обязательное поле", authFormPage.getErrorMessageName());
         Assertions.assertEquals("Введите пароль", authFormPage.getErrorMessagePassword());
+        logger.info("Errors are displayed for User.");
     }
 
     @DisplayName("Проверка формы логина для не существующего логина")
     @Test
     public void testUnknownProfile(){
-        authFormPage.setInputName("testtesttest@test.com");
-        authFormPage.setInputPassword("123456789");
+        Faker faker = new Faker();
+        String password = faker.internet().password();
+        String email = "testtesttest@test.com";
+        authFormPage.setInputName(email);
+        logger.info("User inputs Email {}.", email);
+        authFormPage.setInputPassword(password);
+        logger.info("User inputs Password {}.", password);
         authFormPage.clickButtonSubmit();
 
         Assertions.assertEquals("Такого профиля не существует", authFormPage.getErrorMessageAuth());
