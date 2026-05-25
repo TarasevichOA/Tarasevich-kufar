@@ -13,7 +13,7 @@ public class SearchTest extends BaseTest {
     @BeforeEach
     public void setupSearch() {
         homePage.clickCookies();
-        searchPage = new SearchPage(driver);
+        searchPage = new SearchPage();
     }
 
     @Test

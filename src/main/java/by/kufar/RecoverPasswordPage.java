@@ -1,7 +1,7 @@
 package by.kufar;
 
+import by.kufar.basepage.BasePage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -19,9 +19,8 @@ public class RecoverPasswordPage extends BasePage {
 
     private final String URL_RECOVER_PASSWORD = "https://www.kufar.by/account/recovery";
 
-    public RecoverPasswordPage(WebDriver driver) {
+    public RecoverPasswordPage() {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     public void open() {

@@ -1,8 +1,8 @@
 package by.kufar;
 
+import by.kufar.basepage.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -22,9 +22,8 @@ public class RegistrationPage  extends BasePage {
     private final String CHECKBOX_USER_AGREEMENT = "//label[contains(., 'Я принимаю условия')]//div[@role='checkbox']";
     private final String CAPTCHA = "//span[@id=\"recaptcha-anchor\"]";
 
-    public RegistrationPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    public RegistrationPage() {
+        super();
     }
 
     public void setInputEmail(String email) {
