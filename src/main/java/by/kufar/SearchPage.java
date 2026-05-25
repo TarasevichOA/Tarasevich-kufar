@@ -1,11 +1,8 @@
 package by.kufar;
 
+import by.kufar.basepage.BasePage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 public class SearchPage extends BasePage {
     private final String INPUT_SEARCH_BAR = "//input[@type='text' and contains(@placeholder, 'Поиск объявлений')]";

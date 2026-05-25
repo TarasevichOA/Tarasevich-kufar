@@ -1,4 +1,4 @@
-package by.kufar;
+package by.kufar.basepage;
 
 import by.kufar.driver.Driver;
 import by.kufar.driver.WaitManager;
@@ -11,10 +11,11 @@ public class BasePage {
 
     protected WebDriver driver;
     protected WebDriverWait wait;
+    protected static final Logger logger = LogManager.getLogger();
     public BasePage() {
         this.driver = Driver.getDriver();
         this.wait = WaitManager.getWait(); // Получение синглтона
     }
-    protected static final Logger logger = LogManager.getLogger();
+
 }
 
