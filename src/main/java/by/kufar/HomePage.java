@@ -13,7 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class HomePage {
+public class HomePage extends BasePage {
     private static final Logger logger = LogManager.getLogger(HomePage.class);
     private final String URL = "https://www.kufar.by/";
     private final String INPUT_SEARCH = "//input[@placeholder = 'Поиск объявлений']";

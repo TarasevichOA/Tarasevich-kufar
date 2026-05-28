@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class RecoverPasswordPage {
+public class RecoverPasswordPage extends BasePage {
     private final String TITLE = "//h1[contains(@class, 'styles_title__eUxiN')]";
     private final String INPUT_EMAIL = "//input[@id='email']";
     private final String BUTTON_AUTH = "//button[@type='submit']";
