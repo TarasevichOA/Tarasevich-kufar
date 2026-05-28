@@ -1,10 +1,18 @@
 package by.kufar;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.ThreadContext;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
+@Execution(ExecutionMode.CONCURRENT)
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class HomeTest extends BaseTest {
+    HomePage homePage = new HomePage();
 
+    @DisplayName("Checking CopyRights")
     @Test
     public void testCopyRights() {
         String textActualCopyRights = homePage.getCopyRights();
@@ -12,12 +20,14 @@ public class HomeTest extends BaseTest {
                 "государственный информационный ресурс «Реестр рекламораспространителей»", textActualCopyRights);
     }
 
+    @DisplayName("Checking Button Auth")
     @Test
     public void testButtonAuthText() {
         String textActualButtonAuth = homePage.getButtonAuthText();
         Assertions.assertEquals("Войти", textActualButtonAuth);
     }
 
+    @DisplayName("Checking text of Placeholder")
     @Test
     public void testPlaceholderText() {
         String checkText = "Поиск объявлений";
@@ -28,9 +38,10 @@ public class HomeTest extends BaseTest {
         );
     }
 
+    @DisplayName("Checking text in Search field when User can't find any product")
     @Test
     public void testNothingFound() {
-        String searchQuery = "testtesttest";
+        String searchQuery = "ttttttttttttttttttttttttttttttttttttt";
         homePage.clickCookies();
         homePage.fillInputSearch(searchQuery);
         homePage.clickButtonSearch();

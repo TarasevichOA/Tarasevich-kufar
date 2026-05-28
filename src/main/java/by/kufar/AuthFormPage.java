@@ -1,6 +1,8 @@
 package by.kufar;
 
 import by.kufar.basepage.BasePage;
+import by.kufar.driver.Driver;
+import by.kufar.driver.WaitManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +13,7 @@ import org.openqa.selenium.support.ui.FluentWait;
 import java.time.Duration;
 import java.util.Set;
 
-public class AuthFormPage extends BasePage {
+public class AuthFormPage {
     private final String TITEL = "//span[@class='TabItem_styles_title__Ij2Va' and text() = 'Вход']";
     private final String INPUT_NAME = "//input[@placeholder='Email или номер телефона\t']";
     private final String INPUT_PASSWORD = "//input[@placeholder='Пароль']";
@@ -30,20 +32,20 @@ public class AuthFormPage extends BasePage {
     }
 
     public String getTitleText() {
-        return driver.findElement(By.xpath(TITEL)).getText();
+        return Driver.getDriver().findElement(By.xpath(TITEL)).getText();
     }
 
     public void setInputName(String name) {
-        driver.findElement(By.xpath(INPUT_NAME)).sendKeys(name);
+        Driver.getDriver().findElement(By.xpath(INPUT_NAME)).sendKeys(name);
     }
 
     public void setInputPassword(String password) {
-        driver.findElement(By.xpath(INPUT_PASSWORD)).sendKeys(password);
+        Driver.getDriver().findElement(By.xpath(INPUT_PASSWORD)).sendKeys(password);
     }
 
     public void clickButtonSubmit() {
         // 1. Исправлен тип переменной на Wait<WebDriver>
-        FluentWait<WebDriver> wait = new FluentWait<>(driver)
+        FluentWait<WebDriver> wait = new FluentWait<>(Driver.getDriver())
                 .withTimeout(Duration.ofSeconds(30))
                 // 2. Ускорили опрос (0.5 сек вместо 5 сек)
                 .pollingEvery(Duration.ofMillis(500))
@@ -56,15 +58,15 @@ public class AuthFormPage extends BasePage {
     }
 
     public String getErrorMessageName() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ERROR_MESSAGE_NAME))).getText();
+        return WaitManager.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ERROR_MESSAGE_NAME))).getText();
     }
 
     public String getErrorMessagePassword() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ERROR_MESSAGE_PASSWORD))).getText();
+        return WaitManager.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ERROR_MESSAGE_PASSWORD))).getText();
     }
 
     public String getErrorMessageAuth() {
-        FluentWait<WebDriver> wait = new FluentWait<>(driver)
+        FluentWait<WebDriver> wait = new FluentWait<>(Driver.getDriver())
                 .withTimeout(Duration.ofSeconds(30))
                 .pollingEvery(Duration.ofMillis(500)) // 2. Ускорили опрос (0.5 сек вместо 5 сек)
                 .ignoring(NoSuchElementException.class)
@@ -73,40 +75,39 @@ public class AuthFormPage extends BasePage {
     }
 
     public String getErrorMessageBlockProfile() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ERROR_MESSAGE_BLOCK_PROFILE))).getText();
+        return WaitManager.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ERROR_MESSAGE_BLOCK_PROFILE))).getText();
     }
 
     public WebElement getLinkForgotPassword() {
-        return driver.findElement(By.xpath(LINK_FORGOT_PASSWORD));
+        return Driver.getDriver().findElement(By.xpath(LINK_FORGOT_PASSWORD));
     }
 
     public void clickLinkForgotPassword() {
-        String mainWindow = driver.getWindowHandle();
+        String mainWindow = Driver.getDriver().getWindowHandle();
 
         // 2. Кликаем по ссылке, открывающей новое окно
-        driver.findElement(By.xpath(LINK_FORGOT_PASSWORD)).click();
+        Driver.getDriver().findElement(By.xpath(LINK_FORGOT_PASSWORD)).click();
         // 3. Получаем список всех дескрипторов
-        Set<String> allWindows = driver.getWindowHandles();
+        Set<String> allWindows = Driver.getDriver().getWindowHandles();
         // 4. Переключаемся на новое окно
         for (String handle : allWindows) {
             if (!handle.equals(mainWindow)) {
-                driver.switchTo().window(handle);
+                Driver.getDriver().switchTo().window(handle);
                 break;
             }
         }
-
         // Теперь мы работаем в новом окне
-        System.out.println("Новое окно: " + driver.getTitle());
+        System.out.println("Новое окно: " + Driver.getDriver().getTitle());
 
         // Вернуться в основное окно (если нужно)
         // driver.switchTo().window(mainWindow);
     }
 
     public void clickLinkRegistration() {
-        driver.findElement(By.xpath(LINK_REGISTOR)).click();
+        Driver.getDriver().findElement(By.xpath(LINK_REGISTOR)).click();
     }
 
     public void clickButtonClose() {
-        driver.findElement(By.xpath(BUTTON_CLOSE)).click();
+        Driver.getDriver().findElement(By.xpath(BUTTON_CLOSE)).click();
     }
 }

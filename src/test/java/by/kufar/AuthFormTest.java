@@ -3,45 +3,48 @@ package by.kufar;
 import net.datafaker.Faker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.openqa.selenium.WebElement;
 
+@Execution(ExecutionMode.CONCURRENT)
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class AuthFormTest extends BaseTest {
     private AuthFormPage authFormPage;
-    static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(AuthFormTest.class);
 
     @BeforeEach
     public void setupAuth() {
+        HomePage homePage = new HomePage();
         homePage.clickButtonAuth();
         homePage.clickCookies();
         authFormPage = new AuthFormPage();
     }
 
-    @DisplayName("Проверка заголовка в форме регистрации с пустыми значением")
+    @DisplayName("Checking the registration form header with empty values")
     @Test
     public void checkTitle() {
+        logger.info("The name of the \"Вход\" button is being checked.");
         Assertions.assertEquals("Вход", authFormPage.getTitleText());
     }
 
-    @DisplayName("Проверка формы логина с пустыми значениями")
+    @DisplayName("Validating a login form with empty values")
     @Test
     public void testEmptyFields() {
         authFormPage.setInputName("");
         authFormPage.setInputPassword("");
         authFormPage.setInputName("");
-        logger.info("User doesn't enter any value to Name and Password field.");
+        logger.info("Check when User doesn't enter any value to Name and Password field.");
 
         Assertions.assertEquals("Заполните обязательное поле", authFormPage.getErrorMessageName());
         Assertions.assertEquals("Введите пароль", authFormPage.getErrorMessagePassword());
         logger.info("Errors are displayed for User.");
     }
 
-    @DisplayName("Проверка формы логина для не существующего логина")
+    @DisplayName("Checking the login form for a non-existent login")
     @Test
-    public void testUnknownProfile(){
+    public void testUnknownProfile() {
         Faker faker = new Faker();
         String password = faker.internet().password();
         String email = "testtesttest@test.com";
@@ -54,59 +57,66 @@ public class AuthFormTest extends BaseTest {
         Assertions.assertEquals("Такого профиля не существует", authFormPage.getErrorMessageAuth());
     }
 
-    @DisplayName("Проверка формы логина для заблокированного профиля")
+    @DisplayName("Checking the login form for a blocked profile")
     @Test
-    public void testBlockProfile(){
+    public void testBlockProfile() {
         authFormPage.setInputName("test@test.com");
         authFormPage.setInputPassword("123456789");
         authFormPage.clickButtonSubmit();
+        String errorMessageBlockProfile = authFormPage.getErrorMessageBlockProfile();
 
         Assertions.assertEquals("Профиль заблокирован и не может быть использован. Возможные причины блокировки" +
-                " здесь", authFormPage.getErrorMessageBlockProfile());
+                " здесь", errorMessageBlockProfile);
+        logger.info("User see Error {}.", errorMessageBlockProfile);
     }
 
-    @DisplayName("Проверка формы логина с пустым именем")
+    @DisplayName("Checking the login form with an empty name")
     @Test
     public void testCheckErrorEmail() {
+        logger.info("Check when User doesn't enter any value to Name.");
         authFormPage.setInputName("");
         authFormPage.setInputPassword("123");
 
         Assertions.assertEquals("Заполните обязательное поле", authFormPage.getErrorMessageName());
     }
 
-    @DisplayName("Проверка формы логина с пустыми паролем")
+    @DisplayName("Checking the login form with an empty password")
     @Test
-    public void testCheckErrorPassword(){
+    public void testCheckErrorPassword() {
+        logger.info("Check when User doesn't enter any value to Password.");
         authFormPage.setInputPassword("");
         authFormPage.setInputName("test@test.com");
 
         Assertions.assertEquals("Введите пароль", authFormPage.getErrorMessagePassword());
     }
 
-    @DisplayName("Проверка, что линка 'Забыли пароль?' активна")
+    @DisplayName("Checking that the 'Forgot your password?' link is active")
     @Test
-    public void testCheckLinkForgotPassword(){
+    public void testCheckLinkForgotPassword() {
+        logger.info("Check that 'Forgot your password?' link is active.");
         WebElement link = authFormPage.getLinkForgotPassword();
         Assertions.assertTrue(link.isEnabled(), "Линка активна");
     }
 
-    @DisplayName("Проверка, что линка 'Забыли пароль?' кликабельна")
+    @DisplayName("Checking that the 'Forgot your password?' link is clickable")
     @Test
-    public void testCheckLinkForgotPasswordClickable(){
+    public void testCheckLinkForgotPasswordClickable() {
+        logger.info("Check that 'Forgot your password?' link is clickable.");
         WebElement link = authFormPage.getLinkForgotPassword();
         Assertions.assertTrue(link.isEnabled(), "Линка активна");
         authFormPage.clickLinkForgotPassword();
     }
 
-    @DisplayName("Проверка, что можно перейти на вкладку Регистрации")
+    @DisplayName("Checking that you can go to the Registration tab")
     @Test
-    public void testCheckLinkRegistration(){
+    public void testCheckLinkRegistration() {
+        logger.info("Check that User go to the Registration tab");
         authFormPage.clickLinkRegistration();
     }
 
-    @DisplayName("Проверка кнопки Close")
+    @DisplayName("Checking button \"Close\"")
     @Test
-    public void testCheckButtonClose(){
+    public void testCheckButtonClose() {
         authFormPage.clickButtonClose();
     }
 }
