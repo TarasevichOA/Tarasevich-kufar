@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
@@ -16,11 +17,11 @@ public class HomePage {
     private static final Logger logger = LogManager.getLogger(HomePage.class);
     private final String URL = "https://www.kufar.by/";
     private final String INPUT_SEARCH = "//input[@placeholder = 'Поиск объявлений']";
-    private final String BUTTON_AUTH = "//button[text()='Войти']";
+    private final String BUTTON_AUTH = "//button[contains(text(), 'Войти')]";
     private final String BUTTON_SEARCH = "//button[@class='styles_search_button__Ro1wM']";
     private final String COPY_RIGHTS = "//*[@id=\"footer-container\"]/div[3]/div[1]/p[1]";
     private final String COOKIES = "//*[@id=\"__next\"]/div[2]/div/div/div/div/button[2]";
-    private final String EMPTY_RESULT = "//*[contains(text(), 'Мы это не нашли')]";
+    private final String EMPTY_RESULT = "//*[contains(text(), 'По вашему запросу нет точных совпадений, но мы подобрали похожие варианты')]";
 
     public HomePage() {
         super();
@@ -40,8 +41,11 @@ public class HomePage {
     }
 
     public String getButtonAuthText() {
-        String buttonAuthText = Driver.getDriver().findElement(By.xpath(BUTTON_AUTH)).getText();
-        logger.info("Button Auth {}", buttonAuthText);
+        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(10));
+
+        String buttonAuthText = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath(BUTTON_AUTH))).getText();
+        logger.info("Button Auth text is:{}", buttonAuthText);
         return buttonAuthText;
     }
 

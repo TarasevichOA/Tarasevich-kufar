@@ -41,10 +41,10 @@ public class HomeTest extends BaseTest {
     @DisplayName("Checking text in Search field when User can't find any product")
     @Test
     public void testNothingFound() {
-        String searchQuery = "ttttttttttttttttttttttttttttttttttttt";
+        String searchQuery = "ttttttttttttttttttt";
         homePage.clickCookies();
         homePage.fillInputSearch(searchQuery);
         homePage.clickButtonSearch();
-        Assertions.assertEquals("Мы это не нашли", homePage.getEmptyResultMessage());
+        Assertions.assertEquals("По вашему запросу нет точных совпадений, но мы подобрали похожие варианты", homePage.getEmptyResultMessage());
     }
 }
