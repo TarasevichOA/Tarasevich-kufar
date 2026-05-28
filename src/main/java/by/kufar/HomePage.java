@@ -41,9 +41,23 @@ public class HomePage {
         logger.info("Cookie button is clicked");
     }
 
-    public String getButtonAuthText() {
+/*    public String getButtonAuthText() {
         String buttonAuthText = Driver.getDriver().findElement(By.xpath(BUTTON_AUTH)).getText();
         logger.info("Button Auth {}", buttonAuthText);
+        return buttonAuthText;
+    }*/
+    public String getButtonAuthText() {
+        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(10));
+
+        // Выводим URL для диагностики
+        logger.info("DEBUG: Current URL is '{}'", Driver.getDriver().getCurrentUrl());
+
+        // Ждем видимости элемента
+        String buttonAuthText = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath(BUTTON_AUTH))
+        ).getText();
+
+        logger.info("Button Auth text is: '{}'", buttonAuthText);
         return buttonAuthText;
     }
 
