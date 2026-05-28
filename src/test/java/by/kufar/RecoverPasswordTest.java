@@ -54,9 +54,9 @@ public class RecoverPasswordTest extends BaseTest{
     @DisplayName("Checking the recover Password form with an invalid value")
     @Test
     public void checkFormWithWrongData() {
-        String textErrorInvalidUserEmail = recoverPasswordPage.getExtendedErrorWrongEmail();
         recoverPasswordPage.setInputEmail("375");
         recoverPasswordPage.clickButtonAuth();
+        String textErrorInvalidUserEmail = recoverPasswordPage.getExtendedErrorWrongEmail();
 
         Assertions.assertEquals("Проверьте введенный e-mail - неправильный формат", textErrorInvalidUserEmail);
         logger.info("The error for wrong e-mail in the registration form is equal {}", textErrorInvalidUserEmail);
