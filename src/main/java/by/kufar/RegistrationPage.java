@@ -1,6 +1,10 @@
 package by.kufar;
 
 import by.kufar.basepage.BasePage;
+import by.kufar.driver.Driver;
+import by.kufar.driver.WaitManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -27,20 +31,20 @@ public class RegistrationPage  extends BasePage {
     }
 
     public void setInputEmail(String email) {
-        driver.findElement(By.xpath(INPUT_EMAIL)).sendKeys(email);
+        Driver.getDriver().findElement(By.xpath(INPUT_EMAIL)).sendKeys(email);
     }
 
     public void setInputPassword(String password) {
-        driver.findElement(By.xpath(INPUT_PASSWORD)).sendKeys(password);
+        Driver.getDriver().findElement(By.xpath(INPUT_PASSWORD)).sendKeys(password);
     }
 
     public void setInputRepeatPassword(String password) {
-        driver.findElement(By.xpath(INPUT_REPEAT_PASSWORD)).sendKeys(password);
+        Driver.getDriver().findElement(By.xpath(INPUT_REPEAT_PASSWORD)).sendKeys(password);
     }
 
     public void clickButtonSubmit() {
-        WebElement button = driver.findElement(By.xpath((BUTTON_SUBMIT)));
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+        WebElement button = Driver.getDriver().findElement(By.xpath((BUTTON_SUBMIT)));
+        JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
         // Убираем атрибут disabled и кликаем
         js.executeScript("arguments[0].removeAttribute('disabled'); arguments[0].click();", button);
     }
@@ -49,19 +53,19 @@ public class RegistrationPage  extends BasePage {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ERROR_MESSAGE_EMAIL))).getText();
     }
     public String getErrorMessageWrongEmail() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ERROR_MESSAGE_WRONG_EMAIL))).getText();
+        return WaitManager.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ERROR_MESSAGE_WRONG_EMAIL))).getText();
     }
 
     public String getErrorMessagePassword() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ERROR_MESSAGE_PASSWORD))).getText();
+        return WaitManager.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ERROR_MESSAGE_PASSWORD))).getText();
     }
 
     public String getErrorMessageRepeatPassword() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ERROR_MESSAGE_REPEAT_PASSWORD))).getText();
+        return WaitManager.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ERROR_MESSAGE_REPEAT_PASSWORD))).getText();
     }
 
     public String getErrorMessageWrongRegistration() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ERROR_MESSAGE_REPEAT_REGISTRATION))).getText();
+        return WaitManager.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ERROR_MESSAGE_REPEAT_REGISTRATION))).getText();
     }
 
     public void clickCheckboxUserAgreement() {
@@ -71,18 +75,18 @@ public class RegistrationPage  extends BasePage {
         // Кликаем напрямую через JS
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", checkbox);*/
 
-        driver.findElement(By.xpath(CHECKBOX_USER_AGREEMENT)).click();
+        Driver.getDriver().findElement(By.xpath(CHECKBOX_USER_AGREEMENT)).click();
     }
 
     public boolean isCheckboxSelected() {
-        WebElement checkbox = driver.findElement(By.xpath(CHECKBOX_USER_AGREEMENT));
+        WebElement checkbox = Driver.getDriver().findElement(By.xpath(CHECKBOX_USER_AGREEMENT));
         String ariaChecked = checkbox.getAttribute("aria-checked");
         return "true".equals(ariaChecked);
     }
 
     public void clickCaptcha(){
         // 1. Ждем появления самого iframe (у него обычно заголовок "reCAPTCHA")
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(10));
         wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//iframe[contains(@title, 'reCAPTCHA')]")));
 
         // 2. Теперь ищем чекбокс внутри фрейма
@@ -90,6 +94,6 @@ public class RegistrationPage  extends BasePage {
         recaptchaAnchor.click();
 
         // 3. После клика возвращаемся к основному контенту страницы
-        driver.switchTo().defaultContent();
+        Driver.getDriver().switchTo().defaultContent();
     }
 }
