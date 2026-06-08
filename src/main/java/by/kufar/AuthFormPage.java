@@ -25,7 +25,7 @@ public class AuthFormPage extends BasePage{
 
     private final String LINK_REGISTOR = "//span[text()= 'Регистрация']";
     private final String LINK_FORGOT_PASSWORD = "//a[@href='https://www.kufar.by/account/recovery']";
-    private final String BUTTON_CLOSE = "//img[@alt='Close']";
+    private final String BUTTON_CLOSE = "(//span[@data-testid='popup-close'])[2]";
 
     public AuthFormPage() {
         super();

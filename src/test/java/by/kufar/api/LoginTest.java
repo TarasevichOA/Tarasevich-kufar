@@ -40,9 +40,9 @@ public class LoginTest {
         given()
                 .header("content-type", "application/json;charset=UTF-8")
                 .body(body)
-                .when()
+        .when()
                 .post(LOGIN_URL)
-                .then()
+        .then()
                 .statusCode(400)
                 .body("label.text", equalTo("Не заполнено обязательное поле"));
     }
@@ -59,9 +59,9 @@ public class LoginTest {
         given()
                 .header("content-type", "application/json;charset=UTF-8")
                 .body(body)
-                .when()
+        .when()
                 .post(LOGIN_URL)
-                .then()
+        .then()
                 .statusCode(400)
                 .body("label.text", equalTo("Не заполнено обязательное поле"));
     }

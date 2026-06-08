@@ -2,6 +2,7 @@ package by.kufar;
 
 
 import by.kufar.driver.Driver;
+import net.datafaker.Faker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
@@ -18,6 +19,7 @@ public class RegistrationTest extends BaseTest {
     private AuthFormPage authFormPage;
     private RegistrationPage registrationPage;
     HomePage homePage = new HomePage();
+    Faker faker = new Faker();
 
     @BeforeEach
     public void setupRegistration() {
@@ -46,7 +48,7 @@ public class RegistrationTest extends BaseTest {
     @DisplayName("Checking email on the registration form when enter numbers")
     @Test
     public void testErrorMessageWrongEmail(){
-        String email = "123";
+        String email = faker.number().digits(3);
         String password = "";
 
         registrationPage.setInputEmail(email);
@@ -60,8 +62,9 @@ public class RegistrationTest extends BaseTest {
     @DisplayName("Checking the checkbox in the registration form")
     @Test
     public void testCheckboxUserAgreement(){
-        String email = "testtest@tut.by";
-        String password = "13123Dhgfdy3142";
+        // Генерация случайных валидных данных
+        String email = faker.internet().emailAddress();
+        String password = faker.internet().password(8, 16, true, false, true);
 
         registrationPage.setInputEmail(email);
         registrationPage.setInputPassword(password);
@@ -107,8 +110,9 @@ public class RegistrationTest extends BaseTest {
     @DisplayName("Checking the registration form if the password is incorrect")
     @Test
     public void testErrorMessagePassword(){
-        String email = "testtest@tut.by";
-        String password = "123";
+        // Генерация случайного email и пароля из 3 цифр
+        String email = faker.internet().emailAddress();
+        String password = faker.number().digits(3);
 
         registrationPage.setInputEmail(email);
         registrationPage.setInputPassword(password);

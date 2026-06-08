@@ -69,7 +69,7 @@ public class RegistrationPage  extends BasePage {
     }
 
     public void clickCheckboxUserAgreement() {
-       /* WebElement checkbox = driver.findElement(By.xpath(CHECKBOX_USER_AGREEMENT));
+        /* WebElement checkbox = driver.findElement(By.xpath(CHECKBOX_USER_AGREEMENT));
         // Прокрутим к элементу, чтобы он точно был в области видимости
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", checkbox);
         // Кликаем напрямую через JS
