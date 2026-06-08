@@ -41,7 +41,7 @@ public class HomePage extends BasePage {
         logger.info("Cookie button is clicked");
     }
 
-/*    public String getButtonAuthText() {
+    /*  public String getButtonAuthText() {
         String buttonAuthText = Driver.getDriver().findElement(By.xpath(BUTTON_AUTH)).getText();
         logger.info("Button Auth {}", buttonAuthText);
         return buttonAuthText;
