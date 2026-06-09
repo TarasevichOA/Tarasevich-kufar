@@ -29,7 +29,6 @@ public class HomePage extends BasePage {
     }
 
     public void open() {
-        // Безопасно открываем URL для текущего потока
         Driver.getDriver().get(URL);
         logger.info("Home page is opened");
     }
@@ -46,6 +45,7 @@ public class HomePage extends BasePage {
         logger.info("Button Auth {}", buttonAuthText);
         return buttonAuthText;
     }*/
+
     public String getButtonAuthText() {
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(10));
 

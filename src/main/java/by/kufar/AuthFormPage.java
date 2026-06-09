@@ -44,15 +44,14 @@ public class AuthFormPage extends BasePage{
     }
 
     public void clickButtonSubmit() {
-        // 1. Исправлен тип переменной на Wait<WebDriver>
+
         FluentWait<WebDriver> wait = new FluentWait<>(Driver.getDriver())
                 .withTimeout(Duration.ofSeconds(30))
-                // 2. Ускорили опрос (0.5 сек вместо 5 сек)
+                // Ускорили опрос (0.5 сек вместо 5 сек)
                 .pollingEvery(Duration.ofMillis(500))
                 .ignoring(NoSuchElementException.class)
                 .withMessage("Кнопка Submit не найдена за отведенное время");
 
-        // 3. Добавлен @Override для чистоты кода
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(BUTTON_SUBMIT)));
         element.click();
     }
@@ -85,11 +84,10 @@ public class AuthFormPage extends BasePage{
     public void clickLinkForgotPassword() {
         String mainWindow = Driver.getDriver().getWindowHandle();
 
-        // 2. Кликаем по ссылке, открывающей новое окно
         Driver.getDriver().findElement(By.xpath(LINK_FORGOT_PASSWORD)).click();
-        // 3. Получаем список всех дескрипторов
+        // Получаем список всех дескрипторов
         Set<String> allWindows = Driver.getDriver().getWindowHandles();
-        // 4. Переключаемся на новое окно
+        // Переключаемся на новое окно
         for (String handle : allWindows) {
             if (!handle.equals(mainWindow)) {
                 Driver.getDriver().switchTo().window(handle);

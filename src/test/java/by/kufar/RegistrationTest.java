@@ -32,7 +32,7 @@ public class RegistrationTest extends BaseTest {
 
     @DisplayName("Checking the registration form with empty email addresses")
     @Test
-    public void testErrorMessageEmail(){
+    public void testErrorMessageEmail() {
         String email = "";
         String password = "";
 
@@ -47,9 +47,10 @@ public class RegistrationTest extends BaseTest {
 
     @DisplayName("Checking email on the registration form when enter numbers")
     @Test
-    public void testErrorMessageWrongEmail(){
+    public void testErrorMessageWrongEmail() {
         String email = faker.number().digits(3);
         String password = "";
+        logger.info("User's email is equal {}", email);
 
         registrationPage.setInputEmail(email);
         registrationPage.setInputPassword(password);
@@ -61,10 +62,11 @@ public class RegistrationTest extends BaseTest {
 
     @DisplayName("Checking the checkbox in the registration form")
     @Test
-    public void testCheckboxUserAgreement(){
+    public void testCheckboxUserAgreement() {
         // Генерация случайных валидных данных
         String email = faker.internet().emailAddress();
         String password = faker.internet().password(8, 16, true, false, true);
+        logger.info("User's email and password is equal {}", email, password);
 
         registrationPage.setInputEmail(email);
         registrationPage.setInputPassword(password);
@@ -79,9 +81,10 @@ public class RegistrationTest extends BaseTest {
         logger.info("The checkbox is checked in the registration form");
     }
 
-/*  @DisplayName("Проверка формы регистрации для не валидного юзера")
+    @Disabled("Отключен, так как поменялась логика")
+    @DisplayName("Проверка формы регистрации для не валидного юзера")
     @Test
-    public void testErrorMessageWrongRegistration(){
+    public void testErrorMessageWrongRegistration() {
         String email = "testtest@tut.by";
         String password = "13123Dhgfdy3142";
 
@@ -93,10 +96,12 @@ public class RegistrationTest extends BaseTest {
         registrationPage.clickButtonSubmit();
 
         Assertions.assertEquals("Произошла ошибка при активации профиля. Запросите новую ссылку, чтобы завершить регистрацию", registrationPage.getErrorMessageWrongRegistration());
+    }
 
+    @Disabled("Отключен, так как поменялась логика")
     @DisplayName("Проверка формы регистрации при не верном повторном пароле")
     @Test
-    public void testErrorMessageRepeatPassword(){
+    public void testErrorMessageRepeatPassword() {
         String email = "testtest@tut.by";
         String password = "";
 
@@ -105,14 +110,15 @@ public class RegistrationTest extends BaseTest {
         registrationPage.setInputPassword(password);
 
         Assertions.assertEquals("Пароли не совпадают. Введите пароль заново", registrationPage.getErrorMessageRepeatPassword());
-    }*/
+    }
 
     @DisplayName("Checking the registration form if the password is incorrect")
     @Test
-    public void testErrorMessagePassword(){
+    public void testErrorMessagePassword() {
         // Генерация случайного email и пароля из 3 цифр
         String email = faker.internet().emailAddress();
         String password = faker.number().digits(3);
+        logger.info("User's email and password is equal {}", email, password);
 
         registrationPage.setInputEmail(email);
         registrationPage.setInputPassword(password);
@@ -124,9 +130,10 @@ public class RegistrationTest extends BaseTest {
                 "Текст ошибки должен начинаться с верной фразы, а пришло: " + textErrorMessagePassword);
     }
 
-  /*@DisplayName("Проверка формы регистрации при не верных паролях")
+    @Disabled("Отключен, так как поменялась логика")
+    @DisplayName("Проверка формы регистрации при не верных паролях")
     @Test
-    public void testErrorMessagePasswords(){
+    public void testErrorMessagePasswords() {
         String email = "testtest@tut.by";
         String password = "123";
 
@@ -138,5 +145,5 @@ public class RegistrationTest extends BaseTest {
         Assertions.assertTrue(actualError.startsWith("Пароль должен содержать:"),
                 "Текст ошибки должен начинаться с верной фразы, а пришло: " + actualError);
         Assertions.assertEquals("Пароли не совпадают. Введите пароль заново", registrationPage.getErrorMessageRepeatPassword());
-    }*/
+    }
 }

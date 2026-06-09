@@ -9,8 +9,8 @@ public class Log4j2 extends BasePage {
         logger.error("Here is an ERROR.");
         try {
             int a = 1 / 0;
-        } catch (Exception e) {
-            logger.error("Real ERROR with error message:", e);
+        } catch (Exception exception) {
+            logger.error("Real ERROR with error message:", exception);
         }
     }
 }
