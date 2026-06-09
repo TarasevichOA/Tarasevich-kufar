@@ -118,16 +118,30 @@
                     </dependency>
                 </dependencies>
             </plugin>
+
+            <!-- Обновленный и настроенный плагин Allure -->
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
-                <version>2.12.0</version>
+                <version>2.15.0</version> <!-- Обновили версию для поддержки singleFile -->
                 <configuration>
+                    <singleFile>true</singleFile> <!-- Собирает весь отчет в один index.html -->
                     <reportVersion>${allure.version}</reportVersion>
                     <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
                     <reportDirectory>${project.build.directory}/allure-report</reportDirectory>
                 </configuration>
+                <executions>
+                    <!-- Автоматически запускает сборку отчета сразу после тестов -->
+                    <execution>
+                        <id>allure-report</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
