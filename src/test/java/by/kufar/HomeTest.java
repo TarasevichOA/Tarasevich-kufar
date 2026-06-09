@@ -1,8 +1,17 @@
 package by.kufar;
 
+import by.kufar.driver.Driver;
+import by.kufar.driver.WaitManager;
+import net.datafaker.Faker;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.util.Locale;
 
 @Execution(ExecutionMode.CONCURRENT)
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
@@ -35,23 +44,41 @@ public class HomeTest extends BaseTest {
         );
     }
 
-    @DisplayName("Checking text in Search field when User can't find any product")
-    @Test
-    public void testNothingFound() {
-        String searchQuery = "eeeereeterteyery";
+    private void performSearch(String query) {
         homePage.clickCookies();
-        homePage.fillInputSearch(searchQuery);
+        homePage.fillInputSearch(query);
         homePage.clickButtonSearch();
-        Assertions.assertEquals("Мы это не нашли", homePage.getEmptyResultMessage());
     }
 
-    @DisplayName("Checking text in Search field when User can't find any product")
     @Test
+    @DisplayName("Checking text in Search field when product is absolutely not found")
+    public void testNothingFound() {
+        Faker faker = new Faker(new Locale("ru"));
+        // Генерируем реальное РУССКОЕ слово + цифры, чтобы спровоцировать Kufar показать похожие товары
+
+        String searchQuery = faker.regexify("[к]{40}");
+
+        performSearch(searchQuery);
+
+        String actualMessage = homePage.getEmptyResultMessage();
+        Assertions.assertTrue(
+                actualMessage.contains("Мы это не нашли"),
+                "Ожидаемый текст не найден. Фактически на сайте: " + actualMessage
+        );
+    }
+
+    @Test
+    @DisplayName("Checking text in Search field when similar products are found")
     public void testNothingFound2() {
-        String searchQuery = "cattttttttttt";
-        homePage.clickCookies();
-        homePage.fillInputSearch(searchQuery);
-        homePage.clickButtonSearch();
-        Assertions.assertEquals("По вашему запросу нет точных совпадений, но мы подобрали похожие варианты", homePage.getEmptyResultMessage2());
+        Faker faker = new Faker(new Locale("ru"));
+        String searchQuery = faker.commerce().department() + faker.number().digits(4);
+
+        performSearch(searchQuery);
+
+        String actualMessage = homePage.getEmptyResultMessage2();
+        Assertions.assertTrue(
+                actualMessage.contains("нет точных совпадений"),
+                "Ожидаемый текст не найден. Фактически на сайте: " + actualMessage
+        );
     }
 }

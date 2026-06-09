@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public class HomePage extends BasePage {
     private static final Logger logger = LogManager.getLogger(HomePage.class);
@@ -21,8 +22,8 @@ public class HomePage extends BasePage {
     private final String BUTTON_SEARCH = "//button[@class='styles_search_button__Ro1wM']";
     private final String COPY_RIGHTS = "//*[@id=\"footer-container\"]/div[3]/div[1]/p[1]";
     private final String COOKIES = "//*[@id=\"__next\"]/div[2]/div/div/div/div/button[2]";
-    private final String EMPTY_RESULT = "//*[contains(text(), 'Мы это не нашли')]";
-    private final String EMPTY_RESULT2 = "//*[contains(text(), 'По вашему запросу нет точных совпадений, но мы подобрали похожие варианты')]";
+    private final String EMPTY_RESULT = "//div[contains(@class, 'styles_error')]//span[contains(@class, 'styles_title')]";
+    private final String EMPTY_RESULT2 = "//div[contains(@class, 'styles_ml_disclaimer')]";
 
     public HomePage() {
         super();
@@ -81,17 +82,26 @@ public class HomePage extends BasePage {
         Driver.getDriver().findElement(By.xpath(INPUT_SEARCH)).sendKeys(data);
         logger.info("Filled search input with data: {}", data); // Полезно для логирования
     }
-
     public String getEmptyResultMessage() {
         WebElement getEmptyResultMessage = WaitManager.getWait().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath(EMPTY_RESULT)));
         return getEmptyResultMessage.getText();
     }
-    public String getEmptyResultMessage2() {
+/*    public String getEmptyResultMessage2() {
         WebElement getEmptyResultMessage = WaitManager.getWait().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath(EMPTY_RESULT2)));
         return getEmptyResultMessage.getText();
-    }
+    }*/
+public String getEmptyResultMessage2() {
+    // Сначала ждем появления в DOM структуры страницы
+    WaitManager.getWait().until(ExpectedConditions.presenceOfElementLocated(By.xpath(EMPTY_RESULT2)));
+
+    // Затем ждем, пока элемент станет видимым для пользователя
+    WebElement emptyResultElement = WaitManager.getWait().until(
+            ExpectedConditions.visibilityOfElementLocated(By.xpath(EMPTY_RESULT2))
+    );
+    return emptyResultElement.getText();
+}
 
     public String getPlaceholderText() {
         WebElement element = Driver.getDriver().findElement(By.xpath(INPUT_SEARCH));
