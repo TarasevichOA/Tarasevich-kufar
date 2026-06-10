@@ -12,7 +12,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.util.List;
 
 public class HomePage extends BasePage {
     private static final Logger logger = LogManager.getLogger(HomePage.class);
@@ -40,12 +39,6 @@ public class HomePage extends BasePage {
         cookies.click();
         logger.info("Cookie button is clicked");
     }
-
-    /*  public String getButtonAuthText() {
-        String buttonAuthText = Driver.getDriver().findElement(By.xpath(BUTTON_AUTH)).getText();
-        logger.info("Button Auth {}", buttonAuthText);
-        return buttonAuthText;
-    }*/
 
     public String getButtonAuthText() {
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(10));
@@ -82,26 +75,18 @@ public class HomePage extends BasePage {
         Driver.getDriver().findElement(By.xpath(INPUT_SEARCH)).sendKeys(data);
         logger.info("Filled search input with data: {}", data); // Полезно для логирования
     }
+
     public String getEmptyResultMessage() {
         WebElement getEmptyResultMessage = WaitManager.getWait().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath(EMPTY_RESULT)));
         return getEmptyResultMessage.getText();
     }
-/*    public String getEmptyResultMessage2() {
+
+    public String getEmptyResultMessage2() {
         WebElement getEmptyResultMessage = WaitManager.getWait().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath(EMPTY_RESULT2)));
         return getEmptyResultMessage.getText();
-    }*/
-public String getEmptyResultMessage2() {
-    // Сначала ждем появления в DOM структуры страницы
-    WaitManager.getWait().until(ExpectedConditions.presenceOfElementLocated(By.xpath(EMPTY_RESULT2)));
-
-    // Затем ждем, пока элемент станет видимым для пользователя
-    WebElement emptyResultElement = WaitManager.getWait().until(
-            ExpectedConditions.visibilityOfElementLocated(By.xpath(EMPTY_RESULT2))
-    );
-    return emptyResultElement.getText();
-}
+    }
 
     public String getPlaceholderText() {
         WebElement element = Driver.getDriver().findElement(By.xpath(INPUT_SEARCH));
