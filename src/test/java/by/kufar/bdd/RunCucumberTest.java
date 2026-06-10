@@ -12,7 +12,9 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 @IncludeEngines("cucumber")
 @SelectClasspathResource("features") // Ищет в src/test/resources/features
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "by.kufar.bdd") // Путь к вашим шагам
-@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty, io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm")
+// ИСПРАВЛЕНО: убран пробел после 'pretty,'
+@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty,io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm")
 public class RunCucumberTest {
 
 }
+
