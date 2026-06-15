@@ -10,9 +10,10 @@ import java.util.Locale;
 @Execution(ExecutionMode.CONCURRENT)
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class HomeTest extends BaseTest {
-    HomePage homePage = new HomePage();
+    //HomePage homePage = new HomePage();
     @BeforeEach
-    public void setupAuth() {
+    public void startTestBrowser() { // Переименовали метод, чтобы не затирать setupAuth из BaseTest
+        // Читаем браузер из Maven параметров
         String mavenBrowser = System.getProperty("browser", "chrome");
         startBrowserContext(mavenBrowser);
     }
