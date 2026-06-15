@@ -35,6 +35,10 @@ public class WebDriverFactory {
                     edgeOptions.addArguments("--disable-gpu");
                     edgeOptions.addArguments("--no-sandbox");
                     edgeOptions.addArguments("--disable-dev-shm-usage");
+
+                    edgeOptions.addArguments("--remote-allow-origins=*"); // Разрешает сетевые порты DevTools
+                    edgeOptions.addArguments("--user-data-dir=C:\\Windows\\Temp\\EdgeProfile"); // Создает профиль там, где у SYSTEM есть права
+                    edgeOptions.addArguments("--disable-extensions"); // Отключает плагины, которые могут вешать браузер
                 }
                 return new EdgeDriver(edgeOptions);
 
@@ -47,6 +51,9 @@ public class WebDriverFactory {
                     chromeOptions.addArguments("--disable-gpu");
                     chromeOptions.addArguments("--no-sandbox");
                     chromeOptions.addArguments("--disable-dev-shm-usage");
+                    chromeOptions.addArguments("--remote-allow-origins=*");
+                    chromeOptions.addArguments("--user-data-dir=C:\\Windows\\Temp\\ChromeProfile");
+                    chromeOptions.addArguments("--disable-extensions");
                 }
                 return new ChromeDriver(chromeOptions);
         }
