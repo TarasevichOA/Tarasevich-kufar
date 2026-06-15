@@ -31,7 +31,7 @@ public class WebDriverFactory {
                 EdgeOptions edgeOptions = new EdgeOptions();
                 edgeOptions.addArguments("--window-size=1920,1080");
                 if (isHeadless) {
-                    edgeOptions.addArguments("--headless=new");
+                    edgeOptions.addArguments("--headless");
                     edgeOptions.addArguments("--disable-gpu");
                     edgeOptions.addArguments("--no-sandbox");
                     edgeOptions.addArguments("--disable-dev-shm-usage");
@@ -43,7 +43,7 @@ public class WebDriverFactory {
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.addArguments("--window-size=1920,1080");
                 if (isHeadless) {
-                    chromeOptions.addArguments("--headless=new");
+                    chromeOptions.addArguments("--headless");
                     chromeOptions.addArguments("--disable-gpu");
                     chromeOptions.addArguments("--no-sandbox");
                     chromeOptions.addArguments("--disable-dev-shm-usage");
