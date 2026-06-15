@@ -5,12 +5,14 @@ import io.qameta.allure.Allure;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.ThreadContext;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.TestInfo;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 @Execution(ExecutionMode.CONCURRENT)
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
@@ -18,6 +20,27 @@ public abstract class BaseTest {
 
     private static final Logger logger = LogManager.getLogger(BaseTest.class);
     protected HomePage homePage;
+
+    @BeforeAll
+    public static void createAllureEnvironmentFile() {
+        try {
+            File allureResultsDir = new File("target/allure-results");
+            if (!allureResultsDir.exists()) {
+                allureResultsDir.mkdirs();
+            }
+
+            Properties properties = new Properties();
+            properties.setProperty("Browser", "Cross-Browser (JUnit5)");
+            properties.setProperty("Environment", "Jenkins CI");
+            properties.setProperty("URL", "https://kufar.by");
+
+            FileOutputStream fos = new FileOutputStream("target/allure-results/environment.properties");
+            properties.store(fos, "Allure Environment Properties");
+            fos.close();
+        } catch (IOException e) {
+            System.err.println("Не удалось создать файл environment.properties: " + e.getMessage());
+        }
+    }
 
     @BeforeEach
     public void setupAuth(TestInfo testInfo) {
