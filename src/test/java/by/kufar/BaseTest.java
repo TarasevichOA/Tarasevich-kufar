@@ -17,17 +17,31 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 public abstract class BaseTest {
 
     private static final Logger logger = LogManager.getLogger(BaseTest.class);
+    protected HomePage homePage;
+
     @BeforeEach
     public void setupAuth(TestInfo testInfo) {
         String testName = testInfo.getTestMethod().get().getName();
         ThreadContext.put("logFileName", testName);
         logger.info("Старт теста: {}", testName);
 
-        // Считываем текущий браузер из системы, чтобы передать его в отчет Allure
-        String currentBrowser = System.getProperty("browser", "chrome");
-        Allure.parameter("Браузер", currentBrowser);
+        // Инициализируем объект страницы заранее
+        homePage = new HomePage();
+    }
 
-        HomePage homePage = new HomePage();
+    /**
+     * Вспомогательный метод для старта контекста внутри теста.
+     * Сюда мы передаем имя браузера (из параметров JUnit 5 или дефолтное).
+     */
+    protected void startBrowserContext(String browserName) {
+        // 1. Сохраняем имя браузера в ThreadLocal для фабрики
+        Driver.setBrowserName(browserName);
+
+        // 2. Логируем в Allure
+        Allure.parameter("Браузер", browserName);
+        logger.info("Инициализация браузера: {}", browserName);
+
+        // 3. Открываем страницу (здесь сработает Driver.getDriver() с нужным браузером)
         homePage.open();
         // homePage.clickCookies();
     }
@@ -35,7 +49,9 @@ public abstract class BaseTest {
     @AfterEach
     public void closeDriver() {
         logger.info("Тест завершен. Закрываю браузер.");
+        // quitDriver() закроет браузер, очистит ThreadLocal и вызовет WaitManager.unload()
         Driver.quitDriver();
         ThreadContext.clearAll();
     }
 }
+

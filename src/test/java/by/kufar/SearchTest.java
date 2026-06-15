@@ -17,6 +17,8 @@ public class SearchTest extends BaseTest {
 
     @BeforeEach
     public void setupSearch() {
+        String mavenBrowser = System.getProperty("browser", "chrome");
+        startBrowserContext(mavenBrowser);
         homePage.clickCookies();
         searchPage = new SearchPage();
     }

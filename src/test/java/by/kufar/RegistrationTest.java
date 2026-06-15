@@ -23,6 +23,8 @@ public class RegistrationTest extends BaseTest {
 
     @BeforeEach
     public void setupRegistration() {
+        String mavenBrowser = System.getProperty("browser", "chrome");
+        startBrowserContext(mavenBrowser);
         homePage.clickCookies();
         homePage.clickButtonAuth();
         authFormPage = new AuthFormPage();

@@ -1,10 +1,7 @@
 package by.kufar;
 
 import net.datafaker.Faker;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
@@ -14,6 +11,11 @@ import java.util.Locale;
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class HomeTest extends BaseTest {
     HomePage homePage = new HomePage();
+    @BeforeEach
+    public void setupAuth() {
+        String mavenBrowser = System.getProperty("browser", "chrome");
+        startBrowserContext(mavenBrowser);
+    }
 
     @DisplayName("Checking CopyRights")
     @Test

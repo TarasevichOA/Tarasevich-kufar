@@ -10,12 +10,16 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 
 public class WebDriverFactory {
 
+    // Дефолтный метод (вызывается вашим классом Driver по умолчанию)
     public static WebDriver createDriverInstance() {
-        // 1. Читаем переменную браузера из Maven. Если не передана — по умолчанию chrome
+        // Читаем из системных свойств, если ничего другого не передано
         String browser = System.getProperty("browser", "chrome").toLowerCase().trim();
+        return createDriverInstance(browser);
+    }
 
-        // 2. Читаем переменную headless режима. По умолчанию true (для Jenkins и Maven)
-        // Если запускаете из IDEA через стрелочку, можно передать в VM Options: -Dheadless=false
+    // НОВЫЙ МЕТОД: принимает имя браузера напрямую из теста/ThreadLocal
+    public static WebDriver createDriverInstance(String browser) {
+        browser = browser.toLowerCase().trim();
         boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "true"));
 
         switch (browser) {
@@ -31,14 +35,10 @@ public class WebDriverFactory {
                 EdgeOptions edgeOptions = new EdgeOptions();
                 edgeOptions.addArguments("--window-size=1920,1080");
                 if (isHeadless) {
-                    edgeOptions.addArguments("--headless");
-                    edgeOptions.addArguments("--disable-gpu");
-                    edgeOptions.addArguments("--no-sandbox");
-                    edgeOptions.addArguments("--disable-dev-shm-usage");
-
-                    edgeOptions.addArguments("--remote-allow-origins=*"); // Разрешает сетевые порты DevTools
-                    edgeOptions.addArguments("--user-data-dir=C:\\Windows\\Temp\\EdgeProfile"); // Создает профиль там, где у SYSTEM есть права
-                    edgeOptions.addArguments("--disable-extensions"); // Отключает плагины, которые могут вешать браузер
+                    edgeOptions.addArguments("--headless", "--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage");
+                    edgeOptions.addArguments("--remote-allow-origins=*");
+                    edgeOptions.addArguments("--user-data-dir=C:\\Windows\\Temp\\EdgeProfile");
+                    edgeOptions.addArguments("--disable-extensions");
                 }
                 return new EdgeDriver(edgeOptions);
 
@@ -47,10 +47,7 @@ public class WebDriverFactory {
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.addArguments("--window-size=1920,1080");
                 if (isHeadless) {
-                    chromeOptions.addArguments("--headless");
-                    chromeOptions.addArguments("--disable-gpu");
-                    chromeOptions.addArguments("--no-sandbox");
-                    chromeOptions.addArguments("--disable-dev-shm-usage");
+                    chromeOptions.addArguments("--headless", "--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage");
                     chromeOptions.addArguments("--remote-allow-origins=*");
                     chromeOptions.addArguments("--user-data-dir=C:\\Windows\\Temp\\ChromeProfile");
                     chromeOptions.addArguments("--disable-extensions");
@@ -59,5 +56,6 @@ public class WebDriverFactory {
         }
     }
 }
+
 
 
