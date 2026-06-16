@@ -23,12 +23,11 @@ public abstract class BaseTest {
         ThreadContext.put("logFileName", testName);
         logger.info("Старт теста: {}", testName);
 
-        //String mavenBrowser = System.getProperty("browser", "chrome");
-
-        // 2. Явно передаем имя браузера в ThreadLocal для текущего потока тестов
-        //Driver.setBrowserName(mavenBrowser);
-
-        // 3. Инициализируем глобальное поле (убрали слово HomePage в начале строки!)
+        io.qameta.allure.Allure.addAttachment("Environment Info", "text/plain",
+                "Browser: Cross-Browser (Chrome, Firefox, Edge)\n" +
+                        "Environment: Jenkins CI\n" +
+                        "Threads: 3 (Fixed Strategy)\n" +
+                        "URL: https://kufar.by");
         homePage = new HomePage();
         //homePage.open();
     }
