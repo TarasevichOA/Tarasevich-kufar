@@ -23,14 +23,14 @@ public abstract class BaseTest {
         ThreadContext.put("logFileName", testName);
         logger.info("Старт теста: {}", testName);
 
-        String mavenBrowser = System.getProperty("browser", "chrome");
+        //String mavenBrowser = System.getProperty("browser", "chrome");
 
         // 2. Явно передаем имя браузера в ThreadLocal для текущего потока тестов
-        Driver.setBrowserName(mavenBrowser);
+        //Driver.setBrowserName(mavenBrowser);
 
         // 3. Инициализируем глобальное поле (убрали слово HomePage в начале строки!)
         homePage = new HomePage();
-        homePage.open();
+        //homePage.open();
     }
 
     @AfterEach

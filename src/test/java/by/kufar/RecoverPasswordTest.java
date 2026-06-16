@@ -1,11 +1,13 @@
 package by.kufar;
 
+import by.kufar.driver.Driver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.ThreadContext;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.WebElement;
 
 
@@ -17,33 +19,46 @@ public class RecoverPasswordTest extends BaseTest{
 
     @BeforeEach
     public void setupRecoverPasswordContext(TestInfo testInfo) {
-        String testName = testInfo.getTestMethod().get().getName();
-        ThreadContext.put("logFileName", testName);
-
         recoverPasswordPage = new RecoverPasswordPage();
+
+        // ИСПРАВЛЕНО: Добавлен двойной слэш \\s для корректного экранирования в Java
+        String browser = testInfo.getDisplayName()
+                .replaceAll(".*:\\s*", "")
+                .trim();
+
+        // Если имя не распарсилось (например, при запуске обычного @Test), берем дефолтный из Maven
+        if (browser.isEmpty() || browser.contains(" ") || browser.contains("()")) {
+            browser = System.getProperty("browser", "chrome");
+        }
+
+        // Настраиваем поток и открываем нужный браузер
+        Driver.setBrowserName(browser);
         recoverPasswordPage.open();
         recoverPasswordPage.clickCookies();
     }
 
     @DisplayName("Checking the title on the recover Password form")
-    @Test
-    public void checkTitle() {
+    @ParameterizedTest(name = "Проверка заголовка восстановления пароля в браузере: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void checkTitle(String browser) {
         String textTitleOnRecoverPasswordPage = recoverPasswordPage.getTitleText();
         Assertions.assertEquals("Восстановление пароля", textTitleOnRecoverPasswordPage);
         logger.info("The title in the registration form is equal {}", textTitleOnRecoverPasswordPage);
     }
 
     @DisplayName("Checking the recover Password form with empty values")
-    @Test
-    public void checkUserEmptyData() {
+    @ParameterizedTest(name = "Проверка пустых полей формы восстановления в браузере: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void checkUserEmptyData(String browser) {
         String textErrorUserEmail = recoverPasswordPage.getExtendedDescriptionError();
         Assertions.assertEquals("Введите e-mail", textErrorUserEmail);
         logger.info("The error for empty e-mail in the registration form is equal {}", textErrorUserEmail);
     }
 
     @DisplayName("Checking the recover Password form with an invalid value")
-    @Test
-    public void checkFormWithWrongData() {
+    @ParameterizedTest(name = "Проверка некорректного email в форме восстановления в браузере: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void checkFormWithWrongData(String browser) {
         recoverPasswordPage.setInputEmail("375");
         recoverPasswordPage.clickButtonAuth();
         String textErrorInvalidUserEmail = recoverPasswordPage.getExtendedErrorWrongEmail();
@@ -53,8 +68,9 @@ public class RecoverPasswordTest extends BaseTest{
     }
 
     @DisplayName("Checking that the button is initially locked")
-    @Test
-    void testButtonStateDisabled() {
+    @ParameterizedTest(name = "Проверка блокировки кнопки отправки в браузере: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    void testButtonStateDisabled(String browser) {
         WebElement button = recoverPasswordPage.getAuthButton();
 
         // 1. Проверяем, что кнопка изначально заблокирована
@@ -64,8 +80,9 @@ public class RecoverPasswordTest extends BaseTest{
     }
 
     @DisplayName("Checking that the button is active after entering email")
-    @Test
-    void testButtonStateEnabled() {
+    @ParameterizedTest(name = "Проверка разблокировки кнопки отправки в браузере: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    void testButtonStateEnabled(String browser) {
         WebElement button = recoverPasswordPage.getAuthButton();
 
         recoverPasswordPage.setInputEmail("test@example.com");

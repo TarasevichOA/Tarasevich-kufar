@@ -8,6 +8,8 @@ import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -21,7 +23,24 @@ public class RegistrationTest extends BaseTest {
     private final Faker faker = new Faker();
 
     @BeforeEach
-    public void setupRegistration() {
+    public void setupRegistrationContext(TestInfo testInfo) {
+        // Вырезаем имя браузера из имени текущего параметризованного теста
+        String browser = testInfo.getDisplayName()
+                .replaceAll(".*:\\s*", "")
+                .trim();
+
+        // Безопасный фолбэк на дефолт из Maven, если имя не распарсилось
+        if (browser.isEmpty() || browser.contains(" ") || browser.contains("()")) {
+            browser = System.getProperty("browser", "chrome");
+        }
+
+        // 1. Устанавливаем браузер для текущего потока
+        Driver.setBrowserName(browser);
+
+        // 2. Открываем главную страницу (объект homePage уже инициализирован в BaseTest)
+        homePage.open();
+
+        // 3. Выполняем цепочку переходов к форме регистрации
         homePage.clickCookies();
         homePage.clickButtonAuth();
         authFormPage = new AuthFormPage();
@@ -30,8 +49,9 @@ public class RegistrationTest extends BaseTest {
     }
 
     @DisplayName("Checking the registration form with empty email addresses")
-    @Test
-    public void testErrorMessageEmail() {
+    @ParameterizedTest(name = "Проверка пустой формы регистрации в браузере: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void testErrorMessageEmail(String browser) {
         String email = "";
         String password = "";
 
@@ -40,13 +60,14 @@ public class RegistrationTest extends BaseTest {
         //registrationPage.setInputRepeatPassword(password);
 
         String textErrorMessageEmail = registrationPage.getErrorMessageEmail();
-        logger.info("The error for wrong e-mail in the registration form is equal {}", textErrorMessageEmail);
+        logger.info("Браузер [{}]: The error for wrong e-mail in the registration form is equal {}", browser, textErrorMessageEmail);
         Assertions.assertEquals("Заполните обязательное поле", textErrorMessageEmail);
     }
 
     @DisplayName("Checking email on the registration form when enter numbers")
-    @Test
-    public void testErrorMessageWrongEmail() {
+    @ParameterizedTest(name = "Проверка пустой формы регистрации в браузере: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void testErrorMessageWrongEmail(String browser) {
         String email = faker.number().digits(3);
         String password = "";
         logger.info("User's email is equal {}", email);
@@ -55,13 +76,14 @@ public class RegistrationTest extends BaseTest {
         registrationPage.setInputPassword(password);
 
         String textErrorMessageWrongEmail = registrationPage.getErrorMessageWrongEmail();
-        logger.info("The error for wrong e-mail (enter only numbers) in the registration form is equal {}", textErrorMessageWrongEmail);
+        logger.info("Браузер [{}]: The error for wrong e-mail (enter only numbers) in the registration form is equal {}", browser, textErrorMessageWrongEmail);
         Assertions.assertEquals("Проверьте введенный email - неправильный формат", textErrorMessageWrongEmail);
     }
 
     @DisplayName("Checking the checkbox in the registration form")
-    @Test
-    public void testCheckboxUserAgreement() {
+    @ParameterizedTest(name = "Проверка пустой формы регистрации в браузере: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void testCheckboxUserAgreement(String browser) {
         // Генерация случайных валидных данных
         String email = faker.internet().emailAddress();
         String password = faker.internet().password(8, 16, true, false, true);
@@ -82,8 +104,9 @@ public class RegistrationTest extends BaseTest {
 
     @Disabled("Отключен, так как поменялась логика")
     @DisplayName("Проверка формы регистрации для не валидного юзера")
-    @Test
-    public void testErrorMessageWrongRegistration() {
+    @ParameterizedTest(name = "Проверка пустой формы регистрации в браузере: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void testErrorMessageWrongRegistration(String browser) {
         String email = "testtest@tut.by";
         String password = "13123Dhgfdy3142";
 
@@ -99,8 +122,9 @@ public class RegistrationTest extends BaseTest {
 
     @Disabled("Отключен, так как поменялась логика")
     @DisplayName("Проверка формы регистрации при не верном повторном пароле")
-    @Test
-    public void testErrorMessageRepeatPassword() {
+    @ParameterizedTest(name = "Проверка пустой формы регистрации в браузере: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void testErrorMessageRepeatPassword(String browser) {
         String email = "testtest@tut.by";
         String password = "";
 
@@ -112,8 +136,9 @@ public class RegistrationTest extends BaseTest {
     }
 
     @DisplayName("Checking the registration form if the password is incorrect")
-    @Test
-    public void testErrorMessagePassword() {
+    @ParameterizedTest(name = "Проверка пустой формы регистрации в браузере: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void testErrorMessagePassword(String browser) {
         // Генерация случайного email и пароля из 3 цифр
         String email = faker.internet().emailAddress();
         String password = faker.number().digits(3);
@@ -131,8 +156,9 @@ public class RegistrationTest extends BaseTest {
 
     @Disabled("Отключен, так как поменялась логика")
     @DisplayName("Проверка формы регистрации при не верных паролях")
-    @Test
-    public void testErrorMessagePasswords() {
+    @ParameterizedTest(name = "Проверка пустой формы регистрации в браузере: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void testErrorMessagePasswords(String browser) {
         String email = "testtest@tut.by";
         String password = "123";
 
