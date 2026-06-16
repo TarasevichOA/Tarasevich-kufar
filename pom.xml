@@ -190,7 +190,7 @@
                 <executions>
                     <execution>
                         <id>create-allure-environment</id>
-                        <phase>process-test-resources</phase>
+                        <phase>post-test</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
