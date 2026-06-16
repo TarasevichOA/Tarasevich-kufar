@@ -5,7 +5,7 @@ import java.time.Duration;
 
 public class WaitManager {
     private static final ThreadLocal<WebDriverWait> waitThreadLocal = new ThreadLocal<>();
-    private static final long TIMEOUT_SECONDS = 10;
+    private static final long TIMEOUT_SECONDS = 20;
 
     private WaitManager() {}
 
