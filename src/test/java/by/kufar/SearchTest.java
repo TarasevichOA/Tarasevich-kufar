@@ -13,12 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class SearchTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(SearchTest.class);
     private SearchPage searchPage;
-    HomePage homePage = new HomePage();
 
     @BeforeEach
     public void setupSearch() {
-        String mavenBrowser = System.getProperty("browser", "chrome");
-        startBrowserContext(mavenBrowser);
         homePage.clickCookies();
         searchPage = new SearchPage();
     }
@@ -39,8 +36,8 @@ public class SearchTest extends BaseTest {
         String textFirstProduct = searchPage.verifyFirstResult();
 
         logger.info("Search of first product {}", textFirstProduct);
-        assertTrue(textFirstProduct.contains("Механизм для открывания межкомнатных дверей."),
-                "Первый товар не содержит 'adidas'. Фактическое название: " + textFirstProduct);
+        assertTrue(textFirstProduct.contains(searchQuery),
+                "Первый товар не содержит '" + searchQuery + "'. Фактическое название: " + textFirstProduct);
     }
 
     @DisplayName("Checking text of search input placeholder after it was cleared")

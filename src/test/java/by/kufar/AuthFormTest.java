@@ -11,18 +11,15 @@ import org.openqa.selenium.WebElement;
 @Execution(ExecutionMode.CONCURRENT)
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class AuthFormTest extends BaseTest {
-
     private AuthFormPage authFormPage;
     private static final Logger logger = LogManager.getLogger(AuthFormTest.class);
 
     @BeforeEach
-    public void setupAuth() {
-        HomePage homePage = new HomePage();
-        homePage.clickButtonAuth();
+    public void setupAuthFormContext() {
+        //HomePage homePage = new HomePage();
         homePage.clickCookies();
+        homePage.clickButtonAuth();
         authFormPage = new AuthFormPage();
-        String mavenBrowser = System.getProperty("browser", "chrome");
-        startBrowserContext(mavenBrowser);
     }
 
     @DisplayName("Checking the registration form header with empty values")

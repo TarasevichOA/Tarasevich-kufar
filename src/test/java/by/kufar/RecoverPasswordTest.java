@@ -16,9 +16,7 @@ public class RecoverPasswordTest extends BaseTest{
     private RecoverPasswordPage recoverPasswordPage;
 
     @BeforeEach
-    public void setup(TestInfo testInfo) {
-        String mavenBrowser = System.getProperty("browser", "chrome");
-        startBrowserContext(mavenBrowser);
+    public void setupRecoverPasswordContext(TestInfo testInfo) {
         String testName = testInfo.getTestMethod().get().getName();
         ThreadContext.put("logFileName", testName);
 

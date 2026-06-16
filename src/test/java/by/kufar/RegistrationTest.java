@@ -18,13 +18,10 @@ public class RegistrationTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(RegistrationTest.class);
     private AuthFormPage authFormPage;
     private RegistrationPage registrationPage;
-    HomePage homePage = new HomePage();
-    Faker faker = new Faker();
+    private final Faker faker = new Faker();
 
     @BeforeEach
     public void setupRegistration() {
-        String mavenBrowser = System.getProperty("browser", "chrome");
-        startBrowserContext(mavenBrowser);
         homePage.clickCookies();
         homePage.clickButtonAuth();
         authFormPage = new AuthFormPage();
