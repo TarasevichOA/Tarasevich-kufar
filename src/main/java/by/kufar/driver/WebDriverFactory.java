@@ -37,7 +37,9 @@ public class WebDriverFactory {
                 if (isHeadless) {
                     edgeOptions.addArguments("--headless", "--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage");
                     edgeOptions.addArguments("--remote-allow-origins=*");
-                    edgeOptions.addArguments("--user-data-dir=C:\\Windows\\Temp\\EdgeProfile");
+                    // Замените старую строку с --user-data-dir=C:\\Windows\\Temp\\EdgeProfile на эту:
+                    edgeOptions.addArguments("--user-data-dir=" + System.getProperty("java.io.tmpdir") + "EdgeProfile_" + Thread.currentThread().getId());
+
                     edgeOptions.addArguments("--disable-extensions");
                 }
                 return new EdgeDriver(edgeOptions);
@@ -49,7 +51,9 @@ public class WebDriverFactory {
                 if (isHeadless) {
                     chromeOptions.addArguments("--headless", "--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage");
                     chromeOptions.addArguments("--remote-allow-origins=*");
-                    chromeOptions.addArguments("--user-data-dir=C:\\Windows\\Temp\\ChromeProfile");
+                    // Замените старую строку с --user-data-dir=C:\\Windows\\Temp\\ChromeProfile на эту:
+                    chromeOptions.addArguments("--user-data-dir=" + System.getProperty("java.io.tmpdir") + "ChromeProfile_" + Thread.currentThread().getId());
+
                     chromeOptions.addArguments("--disable-extensions");
                 }
                 return new ChromeDriver(chromeOptions);
