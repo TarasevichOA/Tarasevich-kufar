@@ -36,7 +36,15 @@ public class AuthFormPage extends BasePage{
     }
 
     public void setInputName(String name) {
-        Driver.getDriver().findElement(By.xpath(INPUT_NAME)).sendKeys(name);
+        // 1. Ждем появления по локатору. Метод возвращает готовый веб-элемент текущего потока
+        WebElement element = WaitManager.getWait()
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath(INPUT_NAME)));
+
+        // 2. Работаем с ним безопасно
+        element.clear();
+        element.sendKeys(name);
+        //Driver.getDriver().findElement(By.xpath(INPUT_NAME)).sendKeys(name);
+
     }
 
     public void setInputPassword(String password) {

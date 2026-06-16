@@ -34,12 +34,13 @@ public class WebDriverFactory {
             case "edge":
                 EdgeOptions edgeOptions = new EdgeOptions();
                 edgeOptions.addArguments("--window-size=1920,1080");
-                if (isHeadless) {
-                    edgeOptions.addArguments("--headless", "--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage");
-                    edgeOptions.addArguments("--remote-allow-origins=*");
-                    // Замените старую строку с --user-data-dir=C:\\Windows\\Temp\\EdgeProfile на эту:
-                    edgeOptions.addArguments("--user-data-dir=" + System.getProperty("java.io.tmpdir") + "EdgeProfile_" + Thread.currentThread().getId());
 
+                if (isHeadless) {
+                    edgeOptions.addArguments("--headless=new");
+                    edgeOptions.addArguments("--disable-blink-features=AutomationControlled");
+                    edgeOptions.addArguments("--disable-gpu");
+                    edgeOptions.addArguments("--no-sandbox");
+                    edgeOptions.addArguments("--disable-dev-shm-usage");
                     edgeOptions.addArguments("--disable-extensions");
                 }
                 return new EdgeDriver(edgeOptions);
@@ -48,12 +49,16 @@ public class WebDriverFactory {
             default:
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.addArguments("--window-size=1920,1080");
-                if (isHeadless) {
-                    chromeOptions.addArguments("--headless", "--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage");
-                    chromeOptions.addArguments("--remote-allow-origins=*");
-                    // Замените старую строку с --user-data-dir=C:\\Windows\\Temp\\ChromeProfile на эту:
-                    chromeOptions.addArguments("--user-data-dir=" + System.getProperty("java.io.tmpdir") + "ChromeProfile_" + Thread.currentThread().getId());
 
+                if (isHeadless) {
+                    // Используем стабильный фоновый движок
+                    chromeOptions.addArguments("--headless=new");
+                    // Скрываем автоматизацию, чтобы Kufar не блокировал потоки
+                    chromeOptions.addArguments("--disable-blink-features=AutomationControlled");
+                    // Оптимизируем производительность на сервере Jenkins
+                    chromeOptions.addArguments("--disable-gpu");
+                    chromeOptions.addArguments("--no-sandbox");
+                    chromeOptions.addArguments("--disable-dev-shm-usage");
                     chromeOptions.addArguments("--disable-extensions");
                 }
                 return new ChromeDriver(chromeOptions);
