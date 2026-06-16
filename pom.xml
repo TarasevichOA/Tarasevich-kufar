@@ -182,6 +182,33 @@
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.4.0</version>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-allure-history</id>
+                        <!-- Меняем фазу на compile, чтобы папка target уже гарантированно существовала -->
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/allure-results/history</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.directory}/site/allure-maven-plugin/history</directory>
+                                    <filtering>false</filtering>
+                                    <!-- Не выдавать ошибку, если папки истории еще нет (при самом первом запуске) -->
+                                    <failMissingProperties>false</failMissingProperties>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
