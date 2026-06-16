@@ -22,21 +22,22 @@ public abstract class BaseTest {
     @BeforeAll
     public static void createAllureEnvironmentFile() {
         try {
-            // Проверяем, существует ли папка target/allure-results, если нет — создаем
-            File allureResultsDir = new File("target/allure-results");
+            // Динамически берём путь к allure-results из системы (учитывает target)
+            String resultsDirPath = System.getProperty("allure.results.directory", "target/allure-results");
+            File allureResultsDir = new File(resultsDirPath);
+
             if (!allureResultsDir.exists()) {
                 allureResultsDir.mkdirs();
             }
 
-            // Заполняем свойства окружения
             Properties properties = new Properties();
             properties.setProperty("Browser", "Cross-Browser (Chrome, Firefox, Edge)");
             properties.setProperty("Environment", "Jenkins CI");
-            properties.setProperty("URL", "https://kufar.by");
             properties.setProperty("Threads", "3 (Fixed Strategy)");
+            properties.setProperty("URL", "https://kufar.by");
 
-            // Записываем файл на диск
-            FileOutputStream fos = new FileOutputStream("target/allure-results/environment.properties");
+            // Записываем файл строго в целевую папку результатов
+            FileOutputStream fos = new FileOutputStream(new File(allureResultsDir, "environment.properties"));
             properties.store(fos, "Allure Environment Properties");
             fos.close();
         } catch (IOException e) {
