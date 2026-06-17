@@ -1,38 +1,44 @@
 package by.kufar;
 
+import by.kufar.driver.Driver;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Locale;
 
 @Execution(ExecutionMode.CONCURRENT)
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class HomeTest extends BaseTest {
-    HomePage homePage = new HomePage();
+    @ParameterizedTest(name = "Checking CopyRights in browser: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"}) // Перечисляем браузеры
+    public void testCopyRights(String browser) {
+        Driver.setBrowserName(browser);
+        homePage.open();
 
-    @DisplayName("Checking CopyRights")
-    @Test
-    public void testCopyRights() {
         String textActualCopyRights = homePage.getCopyRights();
         Assertions.assertEquals("Куфар — площадка объявлений Беларуси. ООО «Куфар Тех» включено в " +
                 "государственный информационный ресурс «Реестр рекламораспространителей»", textActualCopyRights);
     }
 
-    @DisplayName("Checking Button Auth")
-    @Test
-    public void testButtonAuthText() {
+    @ParameterizedTest(name = "Checking Button Auth in browser: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void testButtonAuthText(String browser) {
+        Driver.setBrowserName(browser);
+        homePage.open();
         String textActualButtonAuth = homePage.getButtonAuthText();
         Assertions.assertEquals("Войти", textActualButtonAuth);
     }
 
-    @DisplayName("Checking text of Placeholder")
-    @Test
-    public void testPlaceholderText() {
+    @ParameterizedTest(name = "Checking text of Placeholder in browser: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void testPlaceholderText(String browser) {
+        Driver.setBrowserName(browser);
+        homePage.open();
         String checkText = "Поиск объявлений";
         String actualText = homePage.getPlaceholderText();
         Assertions.assertTrue(
@@ -47,9 +53,11 @@ public class HomeTest extends BaseTest {
         homePage.clickButtonSearch();
     }
 
-    @Test
-    @DisplayName("Checking text in Search field when product is absolutely not found")
-    public void testNothingFound() {
+    @ParameterizedTest(name = "Checking text in Search field when product is absolutely not found in browser: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void testNothingFound(String browser) {
+        Driver.setBrowserName(browser);
+        homePage.open();
         Faker faker = new Faker(new Locale("ru"));
         // Генерируем реальное РУССКОЕ слово + цифры, чтобы спровоцировать Kufar показать похожие товары
         // Выбираем одну случайную букву
@@ -67,9 +75,11 @@ public class HomeTest extends BaseTest {
         );
     }
 
-    @Test
-    @DisplayName("Checking text in Search field when similar products are found")
-    public void testNothingFound2() {
+    @ParameterizedTest(name = "Checking text in Search field when similar products are found in browser: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void testNothingFound2(String browser) {
+        Driver.setBrowserName(browser);
+        homePage.open();
         Faker faker = new Faker(new Locale("ru"));
         String searchQuery = faker.commerce().department() + faker.number().digits(4);
 

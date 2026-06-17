@@ -1,33 +1,25 @@
 package by.kufar.driver;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 public class Driver {
     private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<String> browserNameThreadLocal = new ThreadLocal<>();
 
     private Driver() {}
 
+    public static void setBrowserName(String browserName) {
+        browserNameThreadLocal.set(browserName);
+    }
+
     public static WebDriver getDriver() {
         if (driverThreadLocal.get() == null) {
-            // 1. Создаем настройки для браузера Chrome
-            ChromeOptions options = new ChromeOptions();
-
-            // 2. Жестко задаем размер окна, чтобы верстка в Jenkins не схлопывалась
-            options.addArguments("--window-size=1920,1080");
-
-            // 3. Запускаем в headless-режиме (без графического окна для CI/CD)
-            options.addArguments("--headless=new");
-
-            // 4. Дополнительные флаги для стабильности в корпоративных сетях и Docker/Jenkins
-            options.addArguments("--disable-gpu");
-            options.addArguments("--no-sandbox");
-            options.addArguments("--disable-dev-shm-usage");
-
-            // Инициализируем драйвер с нашими настройками
-            WebDriver driver = new ChromeDriver(options);
-
+            WebDriver driver;
+            if (browserNameThreadLocal.get() != null) {
+                driver = WebDriverFactory.createDriverInstance(browserNameThreadLocal.get());
+            } else {
+                driver = WebDriverFactory.createDriverInstance();
+            }
             driverThreadLocal.set(driver);
         }
         return driverThreadLocal.get();
@@ -39,6 +31,8 @@ public class Driver {
             driver.quit();
         }
         driverThreadLocal.remove();
+        browserNameThreadLocal.remove();
+
         WaitManager.unload();
     }
 }

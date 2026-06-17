@@ -16,6 +16,4 @@ public class BasePage {
         this.driver = Driver.getDriver();
         this.wait = WaitManager.getWait(); // Получение синглтона
     }
-
 }
-

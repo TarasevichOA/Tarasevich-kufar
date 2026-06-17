@@ -36,7 +36,11 @@ public class AuthFormPage extends BasePage{
     }
 
     public void setInputName(String name) {
-        Driver.getDriver().findElement(By.xpath(INPUT_NAME)).sendKeys(name);
+        WebElement element = WaitManager.getWait()
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath(INPUT_NAME)));
+
+        element.clear();
+        element.sendKeys(name);
     }
 
     public void setInputPassword(String password) {
@@ -44,10 +48,8 @@ public class AuthFormPage extends BasePage{
     }
 
     public void clickButtonSubmit() {
-
         FluentWait<WebDriver> wait = new FluentWait<>(Driver.getDriver())
                 .withTimeout(Duration.ofSeconds(30))
-                // Ускорили опрос (0.5 сек вместо 5 сек)
                 .pollingEvery(Duration.ofMillis(500))
                 .ignoring(NoSuchElementException.class)
                 .withMessage("Кнопка Submit не найдена за отведенное время");
@@ -85,20 +87,15 @@ public class AuthFormPage extends BasePage{
         String mainWindow = Driver.getDriver().getWindowHandle();
 
         Driver.getDriver().findElement(By.xpath(LINK_FORGOT_PASSWORD)).click();
-        // Получаем список всех дескрипторов
         Set<String> allWindows = Driver.getDriver().getWindowHandles();
-        // Переключаемся на новое окно
         for (String handle : allWindows) {
             if (!handle.equals(mainWindow)) {
                 Driver.getDriver().switchTo().window(handle);
                 break;
             }
         }
-        // Теперь мы работаем в новом окне
-        System.out.println("Новое окно: " + Driver.getDriver().getTitle());
 
-        // Вернуться в основное окно (если нужно)
-        // driver.switchTo().window(mainWindow);
+        System.out.println("Новое окно: " + Driver.getDriver().getTitle());
     }
 
     public void clickLinkRegistration() {

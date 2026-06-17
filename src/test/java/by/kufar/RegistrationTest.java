@@ -8,6 +8,8 @@ import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -18,11 +20,21 @@ public class RegistrationTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(RegistrationTest.class);
     private AuthFormPage authFormPage;
     private RegistrationPage registrationPage;
-    HomePage homePage = new HomePage();
-    Faker faker = new Faker();
+    private final Faker faker = new Faker();
 
     @BeforeEach
-    public void setupRegistration() {
+    public void setupRegistrationContext(TestInfo testInfo) {
+        String browser = testInfo.getDisplayName()
+                .replaceAll(".*:\\s*", "")
+                .trim();
+
+        if (browser.isEmpty() || browser.contains(" ") || browser.contains("()")) {
+            browser = System.getProperty("browser", "chrome");
+        }
+
+        Driver.setBrowserName(browser);
+
+        homePage.open();
         homePage.clickCookies();
         homePage.clickButtonAuth();
         authFormPage = new AuthFormPage();
@@ -30,9 +42,9 @@ public class RegistrationTest extends BaseTest {
         registrationPage = new RegistrationPage();
     }
 
-    @DisplayName("Checking the registration form with empty email addresses")
-    @Test
-    public void testErrorMessageEmail() {
+    @ParameterizedTest(name = "Checking the registration form with empty fields in browser: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void testErrorMessageEmail(String browser) {
         String email = "";
         String password = "";
 
@@ -41,13 +53,13 @@ public class RegistrationTest extends BaseTest {
         //registrationPage.setInputRepeatPassword(password);
 
         String textErrorMessageEmail = registrationPage.getErrorMessageEmail();
-        logger.info("The error for wrong e-mail in the registration form is equal {}", textErrorMessageEmail);
+        logger.info("Браузер [{}]: The error for wrong e-mail in the registration form is equal {}", browser, textErrorMessageEmail);
         Assertions.assertEquals("Заполните обязательное поле", textErrorMessageEmail);
     }
 
-    @DisplayName("Checking email on the registration form when enter numbers")
-    @Test
-    public void testErrorMessageWrongEmail() {
+    @ParameterizedTest(name = "Checking email on the registration form when enter numbers in browser: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void testErrorMessageWrongEmail(String browser) {
         String email = faker.number().digits(3);
         String password = "";
         logger.info("User's email is equal {}", email);
@@ -56,14 +68,13 @@ public class RegistrationTest extends BaseTest {
         registrationPage.setInputPassword(password);
 
         String textErrorMessageWrongEmail = registrationPage.getErrorMessageWrongEmail();
-        logger.info("The error for wrong e-mail (enter only numbers) in the registration form is equal {}", textErrorMessageWrongEmail);
+        logger.info("Браузер [{}]: The error for wrong e-mail (enter only numbers) in the registration form is equal {}", browser, textErrorMessageWrongEmail);
         Assertions.assertEquals("Проверьте введенный email - неправильный формат", textErrorMessageWrongEmail);
     }
 
-    @DisplayName("Checking the checkbox in the registration form")
-    @Test
-    public void testCheckboxUserAgreement() {
-        // Генерация случайных валидных данных
+    @ParameterizedTest(name = "Checking the checkbox in the registration form in browser: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void testCheckboxUserAgreement(String browser) {
         String email = faker.internet().emailAddress();
         String password = faker.internet().password(8, 16, true, false, true);
         logger.info("User's email and password is equal {}", email, password);
@@ -73,7 +84,6 @@ public class RegistrationTest extends BaseTest {
         //registrationPage.setInputRepeatPassword(password);
         registrationPage.clickCheckboxUserAgreement();
 
-        // Ждем, пока атрибут изменится на "true"
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(5));
         boolean isSelected = wait.until(d -> registrationPage.isCheckboxSelected());
 
@@ -81,10 +91,10 @@ public class RegistrationTest extends BaseTest {
         logger.info("The checkbox is checked in the registration form");
     }
 
-    @Disabled("Отключен, так как поменялась логика")
-    @DisplayName("Проверка формы регистрации для не валидного юзера")
-    @Test
-    public void testErrorMessageWrongRegistration() {
+    @Disabled("Disabled due to changed logic")
+    @ParameterizedTest(name = "Проверка формы регистрации для не валидного юзера in browser: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void testErrorMessageWrongRegistration(String browser) {
         String email = "testtest@tut.by";
         String password = "13123Dhgfdy3142";
 
@@ -98,10 +108,10 @@ public class RegistrationTest extends BaseTest {
         Assertions.assertEquals("Произошла ошибка при активации профиля. Запросите новую ссылку, чтобы завершить регистрацию", registrationPage.getErrorMessageWrongRegistration());
     }
 
-    @Disabled("Отключен, так как поменялась логика")
-    @DisplayName("Проверка формы регистрации при не верном повторном пароле")
-    @Test
-    public void testErrorMessageRepeatPassword() {
+    @Disabled("Disabled due to changed logic")
+    @ParameterizedTest(name = "Проверка формы регистрации при не верном повторном пароле in browser: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void testErrorMessageRepeatPassword(String browser) {
         String email = "testtest@tut.by";
         String password = "";
 
@@ -112,9 +122,9 @@ public class RegistrationTest extends BaseTest {
         Assertions.assertEquals("Пароли не совпадают. Введите пароль заново", registrationPage.getErrorMessageRepeatPassword());
     }
 
-    @DisplayName("Checking the registration form if the password is incorrect")
-    @Test
-    public void testErrorMessagePassword() {
+    @ParameterizedTest(name = "Checking the registration form if the password is incorrect in browser: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void testErrorMessagePassword(String browser) {
         // Генерация случайного email и пароля из 3 цифр
         String email = faker.internet().emailAddress();
         String password = faker.number().digits(3);
@@ -130,10 +140,10 @@ public class RegistrationTest extends BaseTest {
                 "Текст ошибки должен начинаться с верной фразы, а пришло: " + textErrorMessagePassword);
     }
 
-    @Disabled("Отключен, так как поменялась логика")
-    @DisplayName("Проверка формы регистрации при не верных паролях")
-    @Test
-    public void testErrorMessagePasswords() {
+    @Disabled("Disabled due to changed logic")
+    @ParameterizedTest(name = "Проверка формы регистрации при не верных паролях in browser: {0}")
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
+    public void testErrorMessagePasswords(String browser) {
         String email = "testtest@tut.by";
         String password = "123";
 

@@ -34,7 +34,6 @@ public class HomePage extends BasePage {
     }
 
     public void clickCookies() {
-        // Вызываем ожидание из ThreadLocal контейнера
         WebElement cookies = WaitManager.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(COOKIES)));
         cookies.click();
         logger.info("Cookie button is clicked");
@@ -43,10 +42,8 @@ public class HomePage extends BasePage {
     public String getButtonAuthText() {
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(10));
 
-        // Выводим URL для диагностики
         logger.info("DEBUG: Current URL is '{}'", Driver.getDriver().getCurrentUrl());
 
-        // Ждем видимости элемента
         String buttonAuthText = wait.until(
                 ExpectedConditions.visibilityOfElementLocated(By.xpath(BUTTON_AUTH))
         ).getText();
