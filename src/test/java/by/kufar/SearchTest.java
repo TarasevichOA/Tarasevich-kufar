@@ -19,29 +19,22 @@ public class SearchTest extends BaseTest {
 
     @BeforeEach
     public void setupSearchContext(TestInfo testInfo) {
-        // Динамически забираем имя браузера из названия текущего параметризованного теста
         String browser = testInfo.getDisplayName()
                 .replaceAll(".*:\\s*", "")
                 .trim();
 
-        // Безопасный фолбэк на дефолт из Maven, если имя не распарсилось
         if (browser.isEmpty() || browser.contains(" ") || browser.contains("()")) {
             browser = System.getProperty("browser", "chrome");
         }
 
-        // 1. Привязываем браузер к текущему потоку
         Driver.setBrowserName(browser);
 
-        // 2. Открываем главную страницу (объект homePage уже инициализирован в BaseTest)
         homePage.open();
-
-        // 3. Закрываем куки и готовим страницу поиска
         homePage.clickCookies();
         searchPage = new SearchPage();
     }
 
-    @DisplayName("Checking text of search input placeholder")
-    @ParameterizedTest(name = "Проверка плейсхолдера поиска в браузере: {0}")
+    @ParameterizedTest(name = "Checking text of search input placeholder in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testCheckSearchInputPlaceholder(String browser) {
         String placeholder = searchPage.getSearchInputPlaceholder();
@@ -51,8 +44,7 @@ public class SearchTest extends BaseTest {
         logger.info("Браузер [{}]: Text of search input placeholder is equal: {}", browser, placeholder);
     }
 
-    @DisplayName("Checking search of first product")
-    @ParameterizedTest(name = "Проверка поиска первого товара в браузере: {0}")
+    @ParameterizedTest(name = "Checking search of first product in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testCheckSearchFirstProduct(String browser) {
         String searchQuery = "Механизм для открывания межкомнатных дверей.";
@@ -65,8 +57,7 @@ public class SearchTest extends BaseTest {
                 "Первый товар не содержит '" + searchQuery + "'. Фактическое название: " + textFirstProduct);
     }
 
-    @DisplayName("Checking text of search input placeholder after it was cleared")
-    @ParameterizedTest(name = "Проверка очистки строки поиска в браузере: {0}")
+    @ParameterizedTest(name = "Checking text of search input placeholder after it was cleared in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testClearSearchInput(String browser) {
         String searchQuery = "Механизм для открывания межкомнатных дверей.";

@@ -19,38 +19,31 @@ public class AuthFormTest extends BaseTest {
 
     @BeforeEach
     public void setupAuthFormContext(TestInfo testInfo) {
-        // Динамически забираем имя браузера из названия текущего параметризованного теста
         String browser = testInfo.getDisplayName()
                 .replaceAll(".*:\\s*", "")
                 .trim();
 
-        // Безопасный фолбэк на дефолт из Maven, если имя не распарсилось
         if (browser.isEmpty() || browser.contains(" ") || browser.contains("()")) {
             browser = System.getProperty("browser", "chrome");
         }
 
-        // 1. Привязываем браузер к текущему потоку
         Driver.setBrowserName(browser);
 
-        // 2. Открываем главную страницу (объект homePage уже инициализирован в BaseTest)
         homePage.open();
 
-        // 3. Закрываем куки и переходим к форме авторизации
         homePage.clickCookies();
         homePage.clickButtonAuth();
         authFormPage = new AuthFormPage();
     }
 
-    @DisplayName("Checking the registration form header with empty values")
-    @ParameterizedTest(name = "Проверка заголовка формы авторизации в браузере: {0}")
+    @ParameterizedTest(name = "Checking the registration form header with empty values in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void checkTitle(String browser) {
         logger.info("Браузер [{}]: The name of the \"Вход\" button is being checked.", browser);
         Assertions.assertEquals("Вход", authFormPage.getTitleText());
     }
 
-    @DisplayName("Validating a login form with empty values")
-    @ParameterizedTest(name = "Проверка валидации пустых полей авторизации в браузере: {0}")
+    @ParameterizedTest(name = "Validating a login form with empty values in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testEmptyFields(String browser) {
         authFormPage.setInputName("");
@@ -62,8 +55,7 @@ public class AuthFormTest extends BaseTest {
         logger.info("Браузер [{}]: Errors are displayed for User.", browser);
     }
 
-    @DisplayName("Checking the login form for a non-existent login")
-    @ParameterizedTest(name = "Проверка авторизации несуществующего профиля в браузере: {0}")
+    @ParameterizedTest(name = "Checking the login form for a non-existent login in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testUnknownProfile(String browser) {
         Faker faker = new Faker();
@@ -78,8 +70,7 @@ public class AuthFormTest extends BaseTest {
         Assertions.assertEquals("Такого профиля не существует", authFormPage.getErrorMessageAuth());
     }
 
-    @DisplayName("Checking the login form for a blocked profile")
-    @ParameterizedTest(name = "Проверка авторизации заблокированного профиля в браузере: {0}")
+    @ParameterizedTest(name = "Checking the login form for a blocked profile in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testBlockProfile(String browser) {
         authFormPage.setInputName("test@test.com");
@@ -92,8 +83,7 @@ public class AuthFormTest extends BaseTest {
         logger.info("Браузер [{}]: User see Error {}.", browser, errorMessageBlockProfile);
     }
 
-    @DisplayName("Checking the login form with an empty name")
-    @ParameterizedTest(name = "Проверка ошибки пустого email в браузере: {0}")
+    @ParameterizedTest(name = "Checking the login form with an empty name in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testCheckErrorEmail(String browser) {
         logger.info("Браузер [{}]: Check when User doesn't enter any value to Name.", browser);
@@ -103,8 +93,7 @@ public class AuthFormTest extends BaseTest {
         Assertions.assertEquals("Заполните обязательное поле", authFormPage.getErrorMessageName());
     }
 
-    @DisplayName("Checking the login form with an empty password")
-    @ParameterizedTest(name = "Проверка ошибки пустого пароля в браузере: {0}")
+    @ParameterizedTest(name = "Checking the login form with an empty password in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testCheckErrorPassword(String browser) {
         logger.info("Браузер [{}]: Check when User doesn't enter any value to Password.", browser);
@@ -114,8 +103,7 @@ public class AuthFormTest extends BaseTest {
         Assertions.assertEquals("Введите пароль", authFormPage.getErrorMessagePassword());
     }
 
-    @DisplayName("Checking that the 'Forgot your password?' link is active")
-    @ParameterizedTest(name = "Проверка активности ссылки восстановления пароля в браузере: {0}")
+    @ParameterizedTest(name = "Checking that the 'Forgot your password?' link is active in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testCheckLinkForgotPassword(String browser) {
         logger.info("Браузер [{}]: Check that 'Forgot your password?' link is active.", browser);
@@ -123,8 +111,7 @@ public class AuthFormTest extends BaseTest {
         Assertions.assertTrue(link.isEnabled(), "Линка активна");
     }
 
-    @DisplayName("Checking that the 'Forgot your password?' link is clickable")
-    @ParameterizedTest(name = "Проверка кликабельности ссылки восстановления пароля в браузере: {0}")
+    @ParameterizedTest(name = "Checking that the 'Forgot your password?' link is clickable in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testCheckLinkForgotPasswordClickable(String browser) {
         logger.info("Браузер [{}]: Check that 'Forgot your password?' link is clickable.", browser);
@@ -133,16 +120,14 @@ public class AuthFormTest extends BaseTest {
         authFormPage.clickLinkForgotPassword();
     }
 
-    @DisplayName("Checking that you can go to the Registration tab")
-    @ParameterizedTest(name = "Проверка перехода на вкладку регистрации в браузере: {0}")
+    @ParameterizedTest(name = "Checking that you can go to the Registration tab in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testCheckLinkRegistration(String browser) {
         logger.info("Браузер [{}]: Check that User go to the Registration tab", browser);
         authFormPage.clickLinkRegistration();
     }
 
-    @DisplayName("Checking button \"Close\"")
-    @ParameterizedTest(name = "Проверка кнопки закрытия формы в браузере: {0}")
+    @ParameterizedTest(name = "Checking button \"Close\" in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testCheckButtonClose(String browser) {
         logger.info("Браузер [{}]: Checking button \"Close\"", browser);

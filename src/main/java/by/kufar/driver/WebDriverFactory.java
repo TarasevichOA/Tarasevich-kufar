@@ -9,15 +9,12 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 public class WebDriverFactory {
-
-    // Дефолтный метод (вызывается вашим классом Driver по умолчанию)
     public static WebDriver createDriverInstance() {
         // Читаем из системных свойств, если ничего другого не передано
         String browser = System.getProperty("browser", "chrome").toLowerCase().trim();
         return createDriverInstance(browser);
     }
 
-    // НОВЫЙ МЕТОД: принимает имя браузера напрямую из теста/ThreadLocal
     public static WebDriver createDriverInstance(String browser) {
         browser = browser.toLowerCase().trim();
         boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "true"));
@@ -51,11 +48,8 @@ public class WebDriverFactory {
                 chromeOptions.addArguments("--window-size=1920,1080");
 
                 if (isHeadless) {
-                    // Используем стабильный фоновый движок
                     chromeOptions.addArguments("--headless=new");
-                    // Скрываем автоматизацию, чтобы Kufar не блокировал потоки
                     chromeOptions.addArguments("--disable-blink-features=AutomationControlled");
-                    // Оптимизируем производительность на сервере Jenkins
                     chromeOptions.addArguments("--disable-gpu");
                     chromeOptions.addArguments("--no-sandbox");
                     chromeOptions.addArguments("--disable-dev-shm-usage");

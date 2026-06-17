@@ -3,8 +3,6 @@ package by.kufar;
 import by.kufar.basepage.BasePage;
 import by.kufar.driver.Driver;
 import by.kufar.driver.WaitManager;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -79,15 +77,12 @@ public class RegistrationPage  extends BasePage {
     }
 
     public void clickCaptcha(){
-        // 1. Ждем появления самого iframe (у него обычно заголовок "reCAPTCHA")
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(10));
         wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//iframe[contains(@title, 'reCAPTCHA')]")));
 
-        // 2. Теперь ищем чекбокс внутри фрейма
         WebElement recaptchaAnchor = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(CAPTCHA)));
         recaptchaAnchor.click();
 
-        // 3. После клика возвращаемся к основному контенту страницы
         Driver.getDriver().switchTo().defaultContent();
     }
 }

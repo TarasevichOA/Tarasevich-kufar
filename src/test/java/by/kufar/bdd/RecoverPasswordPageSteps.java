@@ -19,10 +19,8 @@ public class RecoverPasswordPageSteps {
     }
 
     @Then("User see title - {string}")
-    // Передаем аргумент в метод, чтобы Cucumber мог подставить значение из сценария
     public void verifyAdvanceSearchTitle(String expectedTitle) {
         String textTitleOnRecoverPasswordPage = recoverPasswordPage.getTitleText();
-        // Используем переданный аргумент вместо захардкоженной строки
         Assertions.assertEquals(expectedTitle, textTitleOnRecoverPasswordPage);
     }
 }

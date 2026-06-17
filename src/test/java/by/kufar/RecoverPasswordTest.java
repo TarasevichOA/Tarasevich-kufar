@@ -20,25 +20,20 @@ public class RecoverPasswordTest extends BaseTest{
     @BeforeEach
     public void setupRecoverPasswordContext(TestInfo testInfo) {
         recoverPasswordPage = new RecoverPasswordPage();
-
-        // ИСПРАВЛЕНО: Добавлен двойной слэш \\s для корректного экранирования в Java
         String browser = testInfo.getDisplayName()
                 .replaceAll(".*:\\s*", "")
                 .trim();
 
-        // Если имя не распарсилось (например, при запуске обычного @Test), берем дефолтный из Maven
         if (browser.isEmpty() || browser.contains(" ") || browser.contains("()")) {
             browser = System.getProperty("browser", "chrome");
         }
 
-        // Настраиваем поток и открываем нужный браузер
         Driver.setBrowserName(browser);
         recoverPasswordPage.open();
         recoverPasswordPage.clickCookies();
     }
 
-    @DisplayName("Checking the title on the recover Password form")
-    @ParameterizedTest(name = "Проверка заголовка восстановления пароля в браузере: {0}")
+    @ParameterizedTest(name = "Checking the title on the recover Password form in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void checkTitle(String browser) {
         String textTitleOnRecoverPasswordPage = recoverPasswordPage.getTitleText();
@@ -46,8 +41,7 @@ public class RecoverPasswordTest extends BaseTest{
         logger.info("The title in the registration form is equal {}", textTitleOnRecoverPasswordPage);
     }
 
-    @DisplayName("Checking the recover Password form with empty values")
-    @ParameterizedTest(name = "Проверка пустых полей формы восстановления в браузере: {0}")
+    @ParameterizedTest(name = "Checking the recover Password form with empty values in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void checkUserEmptyData(String browser) {
         String textErrorUserEmail = recoverPasswordPage.getExtendedDescriptionError();
@@ -55,8 +49,7 @@ public class RecoverPasswordTest extends BaseTest{
         logger.info("The error for empty e-mail in the registration form is equal {}", textErrorUserEmail);
     }
 
-    @DisplayName("Checking the recover Password form with an invalid value")
-    @ParameterizedTest(name = "Проверка некорректного email в форме восстановления в браузере: {0}")
+    @ParameterizedTest(name = "Checking the recover Password form with an invalid value in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void checkFormWithWrongData(String browser) {
         recoverPasswordPage.setInputEmail("375");
@@ -67,8 +60,7 @@ public class RecoverPasswordTest extends BaseTest{
         logger.info("The error for wrong e-mail in the registration form is equal {}", textErrorInvalidUserEmail);
     }
 
-    @DisplayName("Checking that the button is initially locked")
-    @ParameterizedTest(name = "Проверка блокировки кнопки отправки в браузере: {0}")
+    @ParameterizedTest(name = "Checking that the button is initially locked in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     void testButtonStateDisabled(String browser) {
         WebElement button = recoverPasswordPage.getAuthButton();
@@ -79,8 +71,7 @@ public class RecoverPasswordTest extends BaseTest{
         logger.info("The button is initially locked");
     }
 
-    @DisplayName("Checking that the button is active after entering email")
-    @ParameterizedTest(name = "Проверка разблокировки кнопки отправки в браузере: {0}")
+    @ParameterizedTest(name = "Checking that the button is active after entering email in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     void testButtonStateEnabled(String browser) {
         WebElement button = recoverPasswordPage.getAuthButton();

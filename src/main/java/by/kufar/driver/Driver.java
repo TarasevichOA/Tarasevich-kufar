@@ -33,9 +33,6 @@ public class Driver {
         driverThreadLocal.remove();
         browserNameThreadLocal.remove();
 
-        // Обязательно очищаем WebDriverWait для этого потока!
         WaitManager.unload();
     }
 }
-
-

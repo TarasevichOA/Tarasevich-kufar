@@ -3,7 +3,6 @@ package by.kufar;
 import by.kufar.driver.Driver;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
@@ -15,22 +14,18 @@ import java.util.Locale;
 @Execution(ExecutionMode.CONCURRENT)
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class HomeTest extends BaseTest {
-
-    @DisplayName("Checking CopyRights")
-    @ParameterizedTest(name = "Проверка CopyRights в браузере: {0}")
+    @ParameterizedTest(name = "Checking CopyRights in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"}) // Перечисляем браузеры
     public void testCopyRights(String browser) {
-        // Явно переопределяем браузер для текущего потока перед любыми действиями!
         Driver.setBrowserName(browser);
         homePage.open();
 
-            String textActualCopyRights = homePage.getCopyRights();
-            Assertions.assertEquals("Куфар — площадка объявлений Беларуси. ООО «Куфар Тех» включено в " +
-                    "государственный информационный ресурс «Реестр рекламораспространителей»", textActualCopyRights);
-        }
+        String textActualCopyRights = homePage.getCopyRights();
+        Assertions.assertEquals("Куфар — площадка объявлений Беларуси. ООО «Куфар Тех» включено в " +
+                "государственный информационный ресурс «Реестр рекламораспространителей»", textActualCopyRights);
+    }
 
-    @DisplayName("Checking Button Auth")
-    @ParameterizedTest(name = "Проверка CopyRights в браузере: {0}")
+    @ParameterizedTest(name = "Checking Button Auth in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testButtonAuthText(String browser) {
         Driver.setBrowserName(browser);
@@ -39,8 +34,7 @@ public class HomeTest extends BaseTest {
         Assertions.assertEquals("Войти", textActualButtonAuth);
     }
 
-    @DisplayName("Checking text of Placeholder")
-    @ParameterizedTest(name = "Проверка CopyRights в браузере: {0}")
+    @ParameterizedTest(name = "Checking text of Placeholder in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testPlaceholderText(String browser) {
         Driver.setBrowserName(browser);
@@ -59,9 +53,8 @@ public class HomeTest extends BaseTest {
         homePage.clickButtonSearch();
     }
 
-    @ParameterizedTest(name = "Проверка CopyRights в браузере: {0}")
+    @ParameterizedTest(name = "Checking text in Search field when product is absolutely not found in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
-    @DisplayName("Checking text in Search field when product is absolutely not found")
     public void testNothingFound(String browser) {
         Driver.setBrowserName(browser);
         homePage.open();
@@ -82,9 +75,8 @@ public class HomeTest extends BaseTest {
         );
     }
 
-    @ParameterizedTest(name = "Проверка CopyRights в браузере: {0}")
+    @ParameterizedTest(name = "Checking text in Search field when similar products are found in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
-    @DisplayName("Checking text in Search field when similar products are found")
     public void testNothingFound2(String browser) {
         Driver.setBrowserName(browser);
         homePage.open();

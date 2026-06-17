@@ -24,23 +24,17 @@ public class RegistrationTest extends BaseTest {
 
     @BeforeEach
     public void setupRegistrationContext(TestInfo testInfo) {
-        // Вырезаем имя браузера из имени текущего параметризованного теста
         String browser = testInfo.getDisplayName()
                 .replaceAll(".*:\\s*", "")
                 .trim();
 
-        // Безопасный фолбэк на дефолт из Maven, если имя не распарсилось
         if (browser.isEmpty() || browser.contains(" ") || browser.contains("()")) {
             browser = System.getProperty("browser", "chrome");
         }
 
-        // 1. Устанавливаем браузер для текущего потока
         Driver.setBrowserName(browser);
 
-        // 2. Открываем главную страницу (объект homePage уже инициализирован в BaseTest)
         homePage.open();
-
-        // 3. Выполняем цепочку переходов к форме регистрации
         homePage.clickCookies();
         homePage.clickButtonAuth();
         authFormPage = new AuthFormPage();
@@ -48,8 +42,7 @@ public class RegistrationTest extends BaseTest {
         registrationPage = new RegistrationPage();
     }
 
-    @DisplayName("Checking the registration form with empty email addresses")
-    @ParameterizedTest(name = "Проверка пустой формы регистрации в браузере: {0}")
+    @ParameterizedTest(name = "Checking the registration form with empty fields in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testErrorMessageEmail(String browser) {
         String email = "";
@@ -64,8 +57,7 @@ public class RegistrationTest extends BaseTest {
         Assertions.assertEquals("Заполните обязательное поле", textErrorMessageEmail);
     }
 
-    @DisplayName("Checking email on the registration form when enter numbers")
-    @ParameterizedTest(name = "Проверка пустой формы регистрации в браузере: {0}")
+    @ParameterizedTest(name = "Checking email on the registration form when enter numbers in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testErrorMessageWrongEmail(String browser) {
         String email = faker.number().digits(3);
@@ -80,11 +72,9 @@ public class RegistrationTest extends BaseTest {
         Assertions.assertEquals("Проверьте введенный email - неправильный формат", textErrorMessageWrongEmail);
     }
 
-    @DisplayName("Checking the checkbox in the registration form")
-    @ParameterizedTest(name = "Проверка пустой формы регистрации в браузере: {0}")
+    @ParameterizedTest(name = "Checking the checkbox in the registration form in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testCheckboxUserAgreement(String browser) {
-        // Генерация случайных валидных данных
         String email = faker.internet().emailAddress();
         String password = faker.internet().password(8, 16, true, false, true);
         logger.info("User's email and password is equal {}", email, password);
@@ -94,7 +84,6 @@ public class RegistrationTest extends BaseTest {
         //registrationPage.setInputRepeatPassword(password);
         registrationPage.clickCheckboxUserAgreement();
 
-        // Ждем, пока атрибут изменится на "true"
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(5));
         boolean isSelected = wait.until(d -> registrationPage.isCheckboxSelected());
 
@@ -102,9 +91,8 @@ public class RegistrationTest extends BaseTest {
         logger.info("The checkbox is checked in the registration form");
     }
 
-    @Disabled("Отключен, так как поменялась логика")
-    @DisplayName("Проверка формы регистрации для не валидного юзера")
-    @ParameterizedTest(name = "Проверка пустой формы регистрации в браузере: {0}")
+    @Disabled("Disabled due to changed logic")
+    @ParameterizedTest(name = "Проверка формы регистрации для не валидного юзера in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testErrorMessageWrongRegistration(String browser) {
         String email = "testtest@tut.by";
@@ -120,9 +108,8 @@ public class RegistrationTest extends BaseTest {
         Assertions.assertEquals("Произошла ошибка при активации профиля. Запросите новую ссылку, чтобы завершить регистрацию", registrationPage.getErrorMessageWrongRegistration());
     }
 
-    @Disabled("Отключен, так как поменялась логика")
-    @DisplayName("Проверка формы регистрации при не верном повторном пароле")
-    @ParameterizedTest(name = "Проверка пустой формы регистрации в браузере: {0}")
+    @Disabled("Disabled due to changed logic")
+    @ParameterizedTest(name = "Проверка формы регистрации при не верном повторном пароле in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testErrorMessageRepeatPassword(String browser) {
         String email = "testtest@tut.by";
@@ -135,8 +122,7 @@ public class RegistrationTest extends BaseTest {
         Assertions.assertEquals("Пароли не совпадают. Введите пароль заново", registrationPage.getErrorMessageRepeatPassword());
     }
 
-    @DisplayName("Checking the registration form if the password is incorrect")
-    @ParameterizedTest(name = "Проверка пустой формы регистрации в браузере: {0}")
+    @ParameterizedTest(name = "Checking the registration form if the password is incorrect in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testErrorMessagePassword(String browser) {
         // Генерация случайного email и пароля из 3 цифр
@@ -154,9 +140,8 @@ public class RegistrationTest extends BaseTest {
                 "Текст ошибки должен начинаться с верной фразы, а пришло: " + textErrorMessagePassword);
     }
 
-    @Disabled("Отключен, так как поменялась логика")
-    @DisplayName("Проверка формы регистрации при не верных паролях")
-    @ParameterizedTest(name = "Проверка пустой формы регистрации в браузере: {0}")
+    @Disabled("Disabled due to changed logic")
+    @ParameterizedTest(name = "Проверка формы регистрации при не верных паролях in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testErrorMessagePasswords(String browser) {
         String email = "testtest@tut.by";

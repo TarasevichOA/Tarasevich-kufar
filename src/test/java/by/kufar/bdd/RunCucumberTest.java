@@ -8,5 +8,5 @@ import org.junit.platform.suite.api.*;
 @SelectClasspathResource("features")
 @ConfigurationParameter(key = "cucumber.plugin", value = "pretty,io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm")
 public class RunCucumberTest {
-    // Больше никаких статических блоков с System.setProperty!
+
 }
