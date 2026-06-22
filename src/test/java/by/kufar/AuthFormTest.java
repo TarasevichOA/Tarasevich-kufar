@@ -48,6 +48,7 @@ public class AuthFormTest extends BaseTest {
     public void testEmptyFields(String browser) {
         authFormPage.setInputName("");
         authFormPage.setInputPassword("");
+        authFormPage.clickWithOffsetFrom();
         logger.info("Браузер [{}]: Check when User doesn't enter any value to Name and Password field.", browser);
 
         Assertions.assertEquals("Заполните обязательное поле", authFormPage.getErrorMessageName());

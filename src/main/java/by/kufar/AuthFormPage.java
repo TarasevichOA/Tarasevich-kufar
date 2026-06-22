@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 
@@ -36,15 +37,17 @@ public class AuthFormPage extends BasePage{
     }
 
     public void setInputName(String name) {
-        WebElement element = WaitManager.getWait()
+        WebElement nameField = WaitManager.getWait()
                 .until(ExpectedConditions.visibilityOfElementLocated(By.xpath(INPUT_NAME)));
 
-        element.clear();
-        element.sendKeys(name);
+        nameField.clear();
+        nameField.sendKeys(name);
     }
 
     public void setInputPassword(String password) {
-        Driver.getDriver().findElement(By.xpath(INPUT_PASSWORD)).sendKeys(password);
+        WebElement passwordField = Driver.getDriver().findElement(By.xpath(INPUT_PASSWORD));
+        passwordField.click();
+        passwordField.sendKeys(password);
     }
 
     public void clickButtonSubmit() {
@@ -104,5 +107,13 @@ public class AuthFormPage extends BasePage{
 
     public void clickButtonClose() {
         Driver.getDriver().findElement(By.xpath(BUTTON_CLOSE)).click();
+    }
+
+    public void clickWithOffsetFrom() {
+        WebElement passwordField = Driver.getDriver().findElement(By.xpath(INPUT_PASSWORD));
+        new Actions(Driver.getDriver())
+                .moveToElement(passwordField, 50, 50)
+                .click()
+                .perform();
     }
 }
