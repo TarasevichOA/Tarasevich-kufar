@@ -59,11 +59,7 @@ public class HomeTest extends BaseTest {
         Driver.setBrowserName(browser);
         homePage.open();
         Faker faker = new Faker(new Locale("ru"));
-        // Генерируем реальное РУССКОЕ слово + цифры, чтобы спровоцировать Kufar показать похожие товары
-        // Выбираем одну случайную букву
         String randomChar = faker.options().option("абвгдеёжзийклмнопрстуфхцчшщъыьэюя".split(""));
-
-        // Подставляем её в регулярное выражение
         String searchQuery = faker.regexify("[" + randomChar + "]{40}");
 
         performSearch(searchQuery);

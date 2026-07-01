@@ -13,7 +13,7 @@ import org.openqa.selenium.WebElement;
 
 @Execution(ExecutionMode.CONCURRENT)
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-public class RecoverPasswordTest extends BaseTest{
+public class RecoverPasswordTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger(RecoverPasswordTest.class);
     private RecoverPasswordPage recoverPasswordPage;
 
@@ -64,9 +64,6 @@ public class RecoverPasswordTest extends BaseTest{
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     void testButtonStateDisabled(String browser) {
         WebElement button = recoverPasswordPage.getAuthButton();
-
-        // 1. Проверяем, что кнопка изначально заблокирована
-        // Используем assertFalse, так как isEnabled() вернет false для задизейбленной кнопки
         Assertions.assertFalse(button.isEnabled(), "Кнопка ДОЛЖНА БЫТЬ заблокирована при пустом вводе");
         logger.info("The button is initially locked");
     }

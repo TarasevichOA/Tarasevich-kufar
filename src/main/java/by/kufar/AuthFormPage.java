@@ -14,7 +14,7 @@ import org.openqa.selenium.support.ui.FluentWait;
 import java.time.Duration;
 import java.util.Set;
 
-public class AuthFormPage extends BasePage{
+public class AuthFormPage extends BasePage {
     private final String TITEL = "//span[@class='TabItem_styles_title__Ij2Va' and text() = 'Вход']";
     private final String INPUT_NAME = "//input[@placeholder='Email или номер телефона\t']";
     private final String INPUT_PASSWORD = "//input[@placeholder='Пароль']";

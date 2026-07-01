@@ -10,7 +10,6 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 
 public class WebDriverFactory {
     public static WebDriver createDriverInstance() {
-        // Читаем из системных свойств, если ничего другого не передано
         String browser = System.getProperty("browser", "chrome").toLowerCase().trim();
         return createDriverInstance(browser);
     }
