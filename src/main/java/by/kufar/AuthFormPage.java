@@ -37,8 +37,18 @@ public class AuthFormPage extends BasePage {
     }
 
     public void setInputName(String name) {
+        // 1. Получаем экземпляр WebDriverWait для текущего потока (из нашего менеджера ожиданий)
         WebElement nameField = WaitManager.getWait()
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath(INPUT_NAME)));
+                // 2. Запускаем цикл динамического ожидания, пока не выполнится заложенное условие
+                .until(
+                        // 3. Условие: элемент должен не просто появиться в HTML-коде (DOM),
+                        // но и стать видимым на экране (иметь высоту, ширину и быть отображенным)
+                        ExpectedConditions.visibilityOfElementLocated(
+                                // 4. Стратегия поиска: ищем элемент на странице по его XPath-локатору,
+                                // который хранится в константе INPUT_NAME
+                                By.xpath(INPUT_NAME)
+                        )
+                ); // 5. Как только элемент станет видимым, метод until() вернет его и запишет в переменную nameField
 
         nameField.clear();
         nameField.sendKeys(name);

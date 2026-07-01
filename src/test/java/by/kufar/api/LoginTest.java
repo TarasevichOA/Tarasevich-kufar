@@ -30,21 +30,35 @@ public class LoginTest {
 
     @Test
     public void testLoginWithoutPassword(){
+        // 1. Создаем объект библиотеки JavaFaker для генерации случайных реалистичных данных
         Faker faker = new Faker();
+        // Генерируем случайный, но валидный по структуре email-адрес (например, "john.doe@gmail.com")
         String emiL = faker.internet().emailAddress();
 
+        // 2. Формируем тело JSON-запроса (body) в виде обычной строки.
+        // Передаем туда сгенерированный email, а поле "password" намеренно оставляем пустым ("")
         String body= "{\n" +
                 "    \"login\": \""+ emiL +"\",\n" +
                 "    \"password\": \"\"\n" +
                 "}";
+
+        // 3. Начинаем построение HTTP-запроса через RestAssured
         given()
+                // Указываем заголовок запроса: сообщаем серверу, что отправляем данные в формате JSON и кодировке UTF-8
                 .header("content-type", "application/json;charset=UTF-8")
+                // Передаем созданную ранее JSON-строку в качестве тела запроса
                 .body(body)
         .when()
+                // Выполняем отправку HTTP-запроса методом POST на эндпоинт, сохраненный в константе LOGIN_URL
                 .post(LOGIN_URL)
         .then()
+                // Проверяем ответ от сервера (Assertion):
+                // Ожидаем, что сервер вернет HTTP-статус 400 (Bad Request / Некорректный запрос)
                 .statusCode(400)
+                // Проверяем JSON-ответ: ищем в нем поле "label.text" и проверяем, что его значение
+                // строго совпадает с ожидаемым текстом "Не заполнено обязательное поле"
                 .body("label.text", equalTo("Не заполнено обязательное поле"));
+
     }
 
     @Test

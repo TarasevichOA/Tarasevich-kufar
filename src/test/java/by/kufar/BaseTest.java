@@ -20,7 +20,8 @@ public abstract class BaseTest {
     @BeforeEach
     public void setupAuth(TestInfo testInfo) {
         String testName = testInfo.getTestMethod().get().getName();
-        ThreadContext.put("logFileName", testName);
+        String className = testInfo.getTestClass().map(Class::getSimpleName).orElse("UnknownTest");
+        ThreadContext.put("className", className);
         logger.info("Старт теста: {}", testName);
 
         homePage = new HomePage();

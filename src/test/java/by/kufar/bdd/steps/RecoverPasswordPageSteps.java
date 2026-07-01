@@ -1,4 +1,4 @@
-package by.kufar.bdd;
+package by.kufar.bdd.steps;
 
 import by.kufar.RecoverPasswordPage;
 import io.cucumber.java.en.*;

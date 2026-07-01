@@ -44,11 +44,26 @@ public class RecoverPasswordPage extends BasePage {
     }
 
     public String getExtendedDescriptionError() {
+        // 1. Находим базовый веб-элемент (поле ввода email) по его XPath-локатору.
+        // Внимание: здесь используется прямой поиск findElement(), который упадет, если элемент еще не успел отрисоваться.
         WebElement element = Driver.getDriver().findElement(By.xpath(INPUT_EMAIL));
+
+        // 2. Создаем объект Actions — это специальный инструмент Selenium для сложных симуляций пользователя
+        // (движения мыши, drag-and-drop, зажатие клавиш, контекстные клики).
         Actions actions = new Actions(Driver.getDriver());
 
-        actions.moveToElement(element, 50, 50).click().perform();
-        return WaitManager.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(EXTENDED_DESCRIPTION_ERROR))).getText();
+        // 3. Выстраиваем и выполняем цепочку действий мыши:
+        actions.moveToElement(element, 50, 50) // Переместить курсор к элементу 'element', но со смещением на 50 пикселей вправо (X) и 50 пикселей вниз (Y) от его центра
+                .click()                        // Кликнуть левой кнопкой мыши в этой новой точке
+                .perform();                     // ВАЖНО: запустить всю цепочку действий на выполнение (без perform() ничего не произойдет)
+
+        // 4. Ожидаем появления сообщения об ошибке и возвращаем его текст:
+        return WaitManager.getWait()
+                // Ждем (до 20 секунд), пока элемент с расширенным описанием ошибки станет видимым на экране
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath(EXTENDED_DESCRIPTION_ERROR)))
+                // Как только элемент появился, мгновенно считываем его видимый текст и возвращаем из метода
+                .getText();
+
     }
 
     public String getExtendedErrorWrongEmail() {
