@@ -6,7 +6,8 @@ public class Driver {
     private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
     private static final ThreadLocal<String> browserNameThreadLocal = new ThreadLocal<>();
 
-    private Driver() {}
+    private Driver() {
+    }
 
     public static void setBrowserName(String browserName) {
         browserNameThreadLocal.set(browserName);

@@ -47,7 +47,6 @@ public class RecoverPasswordPage extends BasePage {
         WebElement element = Driver.getDriver().findElement(By.xpath(INPUT_EMAIL));
         Actions actions = new Actions(Driver.getDriver());
 
-        // Нажатие в 50 пикселях вправо и 50 вниз от верхнего левого угла элемента
         actions.moveToElement(element, 50, 50).click().perform();
         return WaitManager.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(EXTENDED_DESCRIPTION_ERROR))).getText();
     }
@@ -56,7 +55,7 @@ public class RecoverPasswordPage extends BasePage {
         return WaitManager.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(EXTENDED_ERROR_WRONG_EMAIL))).getText();
     }
 
-    public WebElement getAuthButton(){
+    public WebElement getAuthButton() {
         return Driver.getDriver().findElement(By.xpath(BUTTON_AUTH));
     }
 }

@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class RegistrationPage  extends BasePage {
+public class RegistrationPage extends BasePage {
     private final String INPUT_EMAIL = "//input[@type='email']";
     private final String INPUT_PASSWORD = "//input[@placeholder='Пароль']";
     private final String INPUT_REPEAT_PASSWORD = "//input[@placeholder='Подтвердите пароль']";
@@ -43,13 +43,13 @@ public class RegistrationPage  extends BasePage {
     public void clickButtonSubmit() {
         WebElement button = Driver.getDriver().findElement(By.xpath((BUTTON_SUBMIT)));
         JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
-        // Убираем атрибут disabled и кликаем
         js.executeScript("arguments[0].removeAttribute('disabled'); arguments[0].click();", button);
     }
 
     public String getErrorMessageEmail() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ERROR_MESSAGE_EMAIL))).getText();
     }
+
     public String getErrorMessageWrongEmail() {
         return WaitManager.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ERROR_MESSAGE_WRONG_EMAIL))).getText();
     }
@@ -76,7 +76,7 @@ public class RegistrationPage  extends BasePage {
         return "true".equals(ariaChecked);
     }
 
-    public void clickCaptcha(){
+    public void clickCaptcha() {
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(10));
         wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath("//iframe[contains(@title, 'reCAPTCHA')]")));
 

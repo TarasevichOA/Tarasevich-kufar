@@ -125,7 +125,6 @@ public class RegistrationTest extends BaseTest {
     @ParameterizedTest(name = "Checking the registration form if the password is incorrect in browser: {0}")
     @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testErrorMessagePassword(String browser) {
-        // Генерация случайного email и пароля из 3 цифр
         String email = faker.internet().emailAddress();
         String password = faker.number().digits(3);
         logger.info("User's email and password is equal {}", email, password);

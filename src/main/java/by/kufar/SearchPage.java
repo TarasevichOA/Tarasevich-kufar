@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class SearchPage extends BasePage {
     private final String INPUT_SEARCH_BAR = "//input[@type='text' and contains(@placeholder, 'Поиск объявлений')]";
-    private final String SUGGESTION_TEXT= "//span[@class='styles_suggestion__text__YOUxM']";
+    private final String SUGGESTION_TEXT = "//span[@class='styles_suggestion__text__YOUxM']";
     private final String FIRST_PRODUCT = "//h3[@class='styles_title__F3uIe' and text() = 'Механизм для открывания межкомнатных дверей.']";
 
 

@@ -40,7 +40,6 @@ public class SearchTest extends BaseTest {
         String placeholder = searchPage.getSearchInputPlaceholder();
         Assertions.assertEquals("Поиск объявлений", placeholder);
 
-        // Используем browser в логах, чтобы переменная не была серой
         logger.info("Браузер [{}]: Text of search input placeholder is equal: {}", browser, placeholder);
     }
 
