@@ -14,6 +14,6 @@ public class BasePage {
     protected static final Logger logger = LogManager.getLogger();
     public BasePage() {
         this.driver = Driver.getDriver();
-        this.wait = WaitManager.getWait(); // Получение синглтона
+        this.wait = WaitManager.getWait();
     }
 }

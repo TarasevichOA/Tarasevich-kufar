@@ -5,4 +5,3 @@ Feature: Test scenarious for RecoverPasswordPage
     Given User opens Recover Password Page for Kufar
     When User click Cookies on opens recover password page
     Then User see title - "Восстановление пароля"
-

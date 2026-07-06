@@ -70,7 +70,7 @@ public class HomePage extends BasePage {
 
     public void fillInputSearch(String data) {
         Driver.getDriver().findElement(By.xpath(INPUT_SEARCH)).sendKeys(data);
-        logger.info("Filled search input with data: {}", data); // Полезно для логирования
+        logger.info("Filled search input with data: {}", data);
     }
 
     public String getEmptyResultMessage() {

@@ -38,15 +38,12 @@
             <artifactId>selenium-java</artifactId>
             <version>4.41.0</version>
         </dependency>
-
-        <!-- Единая чистая зависимость JUnit 5 без дубликатов старых версий -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
@@ -103,7 +100,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Cucumber Java -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
@@ -111,7 +107,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Cucumber JUnit 5 Platform Engine -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit-platform-engine</artifactId>
@@ -119,7 +114,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Поддержка Suite в JUnit 5 -->
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-suite-api</artifactId>
@@ -154,7 +148,6 @@
                 <executions>
                     <execution>
                         <id>copy-allure-history</id>
-                        <!-- Фаза initialize выполняется ДО тестов и очистки результатов -->
                         <phase>initialize</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -163,7 +156,6 @@
                             <outputDirectory>${project.build.directory}/allure-results/history</outputDirectory>
                             <resources>
                                 <resource>
-                                    <!-- Берем историю из локального отчета -->
                                     <directory>${project.build.directory}/allure-report/history</directory>
                                     <filtering>false</filtering>
                                 </resource>

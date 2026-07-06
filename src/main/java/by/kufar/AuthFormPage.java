@@ -23,7 +23,6 @@ public class AuthFormPage extends BasePage {
     private final String ERROR_MESSAGE_PASSWORD = "//span[contains(text(), 'Введите пароль')]";
     private final String ERROR_MESSAGE_AUTH = "//p[contains(text(), 'Такого профиля не существует')]";
     private final String ERROR_MESSAGE_BLOCK_PROFILE = "//div[contains(text(), 'Профиль заблокирован и не может быть использован. Возможные причины блокировки ')]";
-
     private final String LINK_REGISTOR = "//span[text()= 'Регистрация']";
     private final String LINK_FORGOT_PASSWORD = "//a[@href='https://www.kufar.by/account/recovery']";
     private final String BUTTON_CLOSE = "(//span[@data-testid='popup-close'])[2]";
@@ -72,7 +71,7 @@ public class AuthFormPage extends BasePage {
     public String getErrorMessageAuth() {
         FluentWait<WebDriver> wait = new FluentWait<>(Driver.getDriver())
                 .withTimeout(Duration.ofSeconds(30))
-                .pollingEvery(Duration.ofMillis(500)) // 2. Ускорили опрос (0.5 сек вместо 5 сек)
+                .pollingEvery(Duration.ofMillis(500))
                 .ignoring(NoSuchElementException.class)
                 .withMessage("Кнопка Submit не найдена за отведенное время");
         return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ERROR_MESSAGE_AUTH))).getText();

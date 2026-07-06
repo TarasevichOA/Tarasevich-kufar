@@ -1,6 +1,5 @@
 package by.kufar.bdd;
 
-
 import org.junit.platform.suite.api.*;
 
 @Suite
