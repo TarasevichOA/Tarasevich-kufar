@@ -24,7 +24,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
         // final гарантирует, что логгер нельзя перезаписать в коде после инициализации.
         // getClass() динамически берет имя конечного класса (например, если вызван HomePage,
         // то в лог запишется именно имя HomePage, а не BasePage).
-        protected final Logger logger = LogManager.getLogger(getClass());
+        protected static final Logger logger = LogManager.getLogger();
 
         // Конструктор автоматически срабатывает каждый раз, когда создается любая страница
         public BasePage() {
