@@ -46,14 +46,12 @@ public class WebDriverFactory {
 
             case "edge":
                 EdgeOptions edgeOptions = new EdgeOptions();
-                // Применяем общие настройки для Chromium через приватный метод
                 configureChromiumOptions(edgeOptions, isHeadless);
                 return new EdgeDriver(edgeOptions);
 
             case "chrome":
             default:
                 ChromeOptions chromeOptions = new ChromeOptions();
-                // Применяем общие настройки для Chromium через приватный метод
                 configureChromiumOptions(chromeOptions, isHeadless);
                 return new ChromeDriver(chromeOptions);
         }
@@ -70,7 +68,6 @@ public class WebDriverFactory {
         // Устанавливаем базовое разрешение для всех Chromium браузеров
         options.addArguments("--window-size=1920,1080");
 
-        // Если включен Headless, добавляем пакет оптимизаций для CI/CD и Docker
         if (isHeadless) {
             options.addArguments(
                     "--headless=new",

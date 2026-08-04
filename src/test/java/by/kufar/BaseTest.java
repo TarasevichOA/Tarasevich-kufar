@@ -25,7 +25,6 @@ public abstract class BaseTest {
         logger.info("Старт теста: {}", testName);
 
         homePage = new HomePage();
-        //homePage.open();
     }
 
     @AfterEach

@@ -19,31 +19,17 @@ public class AuthFormTest extends BaseTest {
 
     @BeforeEach
     public void setupAuthFormContext(TestInfo testInfo) {
-        // Извлекаем отображаемое имя теста (TestInfo — это класс JUnit 5, хранящий метаданные о текущем тесте)
-        // Например, если тест параметризованный, его имя в рантайме может выглядеть как: "testLogin() [1] browser: firefox"
         String browser = testInfo.getDisplayName()
-                // Регулярное выражение: удаляет всё, что идет до двоеточия со следующими за ним пробелами (включительно)
-                // Из строки "testLogin() [1] browser: firefox" останется только "firefox"
                 .replaceAll(".*:\\s*", "")
-                // Убирает случайные невидимые пробелы по краям строки
                 .trim();
 
-        // Проверяем, удалось ли успешно извлечь имя браузера из названия теста.
-        // Браузер считается НЕ определенным, если строка пустая, содержит пробелы или содержит скобки "()" (признак обычного метода)
         if (browser.isEmpty() || browser.contains(" ") || browser.contains("()")) {
-
-            // Если из имени теста имя браузера вытащить не удалось, берем значение из системных свойств (например, -Dbrowser=edge).
-            // Если системное свойство тоже не задано, по умолчанию используем "chrome"
             browser = System.getProperty("browser", "chrome");
         }
 
-        // Передаем итоговое имя браузера в наш потокобезопасный класс Driver
-        // Теперь Driver.getDriver() внутри этого потока знает, какой именно браузер нужно запустить
         Driver.setBrowserName(browser);
 
-
         homePage.open();
-
         homePage.clickCookies();
         homePage.clickButtonAuth();
         authFormPage = new AuthFormPage();

@@ -18,12 +18,13 @@ public class AuthFormPage extends BasePage {
     private final String TITEL = "//span[@class='TabItem_styles_title__Ij2Va' and text() = 'Вход']";
     private final String INPUT_NAME = "//input[@placeholder='Email или номер телефона\t']";
     private final String INPUT_PASSWORD = "//input[@placeholder='Пароль']";
-    private final String BUTTON_SUBMIT = "//button[contains(@class, 'Button_styles_button--green-accent__vLxrh Button_styles_button--full-width__MZkn5')]";
+    private final String BUTTON_SUBMIT = "//button[contains(@class, 'Button_styles_button--green-accent__vLxrh " +
+            "Button_styles_button--full-width__MZkn5')]";
     private final String ERROR_MESSAGE_NAME = "//span[contains(text(), 'Заполните обязательное поле')]";
     private final String ERROR_MESSAGE_PASSWORD = "//span[contains(text(), 'Введите пароль')]";
     private final String ERROR_MESSAGE_AUTH = "//p[contains(text(), 'Такого профиля не существует')]";
-    private final String ERROR_MESSAGE_BLOCK_PROFILE = "//div[contains(text(), 'Профиль заблокирован и не может быть использован. Возможные причины блокировки ')]";
-
+    private final String ERROR_MESSAGE_BLOCK_PROFILE = "//div[contains(text(), 'Профиль заблокирован и не может быть " +
+            "использован. Возможные причины блокировки ')]";
     private final String LINK_REGISTOR = "//span[text()= 'Регистрация']";
     private final String LINK_FORGOT_PASSWORD = "//a[@href='https://www.kufar.by/account/recovery']";
     private final String BUTTON_CLOSE = "(//span[@data-testid='popup-close'])[2]";
@@ -37,18 +38,12 @@ public class AuthFormPage extends BasePage {
     }
 
     public void setInputName(String name) {
-        // 1. Получаем экземпляр WebDriverWait для текущего потока (из нашего менеджера ожиданий)
         WebElement nameField = WaitManager.getWait()
-                // 2. Запускаем цикл динамического ожидания, пока не выполнится заложенное условие
                 .until(
-                        // 3. Условие: элемент должен не просто появиться в HTML-коде (DOM),
-                        // но и стать видимым на экране (иметь высоту, ширину и быть отображенным)
                         ExpectedConditions.visibilityOfElementLocated(
-                                // 4. Стратегия поиска: ищем элемент на странице по его XPath-локатору,
-                                // который хранится в константе INPUT_NAME
                                 By.xpath(INPUT_NAME)
                         )
-                ); // 5. Как только элемент станет видимым, метод until() вернет его и запишет в переменную nameField
+                );
 
         nameField.clear();
         nameField.sendKeys(name);
@@ -82,7 +77,7 @@ public class AuthFormPage extends BasePage {
     public String getErrorMessageAuth() {
         FluentWait<WebDriver> wait = new FluentWait<>(Driver.getDriver())
                 .withTimeout(Duration.ofSeconds(30))
-                .pollingEvery(Duration.ofMillis(500)) // 2. Ускорили опрос (0.5 сек вместо 5 сек)
+                .pollingEvery(Duration.ofMillis(500))
                 .ignoring(NoSuchElementException.class)
                 .withMessage("Кнопка Submit не найдена за отведенное время");
         return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ERROR_MESSAGE_AUTH))).getText();

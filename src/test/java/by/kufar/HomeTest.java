@@ -15,7 +15,7 @@ import java.util.Locale;
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class HomeTest extends BaseTest {
     @ParameterizedTest(name = "Checking CopyRights in browser: {0}")
-    @ValueSource(strings = {"chrome", "firefox", "edge"}) // Перечисляем браузеры
+    @ValueSource(strings = {"chrome", "firefox", "edge"})
     public void testCopyRights(String browser) {
         Driver.setBrowserName(browser);
         homePage.open();
