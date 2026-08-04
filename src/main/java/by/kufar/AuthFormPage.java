@@ -39,11 +39,7 @@ public class AuthFormPage extends BasePage {
 
     public void setInputName(String name) {
         WebElement nameField = WaitManager.getWait()
-                .until(
-                        ExpectedConditions.visibilityOfElementLocated(
-                                By.xpath(INPUT_NAME)
-                        )
-                );
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath(INPUT_NAME)));
 
         nameField.clear();
         nameField.sendKeys(name);

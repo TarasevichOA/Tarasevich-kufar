@@ -1,6 +1,5 @@
 package by.kufar;
 
-
 import by.kufar.driver.Driver;
 import net.datafaker.Faker;
 import org.apache.logging.log4j.LogManager;

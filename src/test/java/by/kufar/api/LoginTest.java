@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.equalTo;
 
-
 public class LoginTest {
     final String LOGIN_URL = "https://cre-auth.kufar.by/v2/auth/signin?token_type=user";
 
