@@ -16,6 +16,7 @@ import java.time.Duration;
 public class HomePage extends BasePage {
     private static final Logger logger = LogManager.getLogger(HomePage.class);
     private final String URL = "https://www.kufar.by/";
+
     private final String INPUT_SEARCH = "//input[@placeholder = 'Поиск объявлений']";
     private final String BUTTON_AUTH = "//button[contains(@class, 'styles_button') and contains(@class, 'styles_outline')]";
     private final String BUTTON_SEARCH = "//button[@class='styles_search_button__Ro1wM']";

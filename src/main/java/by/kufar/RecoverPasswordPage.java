@@ -45,10 +45,15 @@ public class RecoverPasswordPage extends BasePage {
 
     public String getExtendedDescriptionError() {
         WebElement element = Driver.getDriver().findElement(By.xpath(INPUT_EMAIL));
-        Actions actions = new Actions(Driver.getDriver());
 
-        actions.moveToElement(element, 50, 50).click().perform();
-        return WaitManager.getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(EXTENDED_DESCRIPTION_ERROR))).getText();
+        Actions actions = new Actions(Driver.getDriver());
+        actions.moveToElement(element, 50, 50)
+                .click()
+                .perform();
+
+        return WaitManager.getWait()
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath(EXTENDED_DESCRIPTION_ERROR)))
+                .getText();
     }
 
     public String getExtendedErrorWrongEmail() {

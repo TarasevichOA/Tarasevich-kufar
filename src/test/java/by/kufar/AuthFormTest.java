@@ -30,7 +30,6 @@ public class AuthFormTest extends BaseTest {
         Driver.setBrowserName(browser);
 
         homePage.open();
-
         homePage.clickCookies();
         homePage.clickButtonAuth();
         authFormPage = new AuthFormPage();

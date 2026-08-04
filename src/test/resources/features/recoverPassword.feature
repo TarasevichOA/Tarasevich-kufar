@@ -1,4 +1,4 @@
-Feature: Test scenarious for RecoverPasswordPage
+Feature: Test scenarios for RecoverPasswordPage
 
   Scenario: Test for verify title recover password form
 

@@ -20,7 +20,8 @@ public class RegistrationPage extends BasePage {
     private final String ERROR_MESSAGE_WRONG_EMAIL = "//span[contains(text(), 'Проверьте введенный email - неправильный формат')]";
     private final String ERROR_MESSAGE_PASSWORD = "//ul[./text()[contains(., 'Пароль должен содержать:')]]";
     private final String ERROR_MESSAGE_REPEAT_PASSWORD = "//span[contains(text(), 'Пароли не совпадают. Введите пароль заново')]";
-    private final String ERROR_MESSAGE_REPEAT_REGISTRATION = "//div[contains(text(), 'Произошла ошибка при активации профиля. Запросите новую ссылку, чтобы завершить регистрацию')]";
+    private final String ERROR_MESSAGE_REPEAT_REGISTRATION = "//div[contains(text(), 'Произошла ошибка при активации профиля. " +
+            "Запросите новую ссылку, чтобы завершить регистрацию')]";
     private final String CHECKBOX_USER_AGREEMENT = "//label[contains(., 'Я принимаю условия')]//div[@role='checkbox']";
     private final String CAPTCHA = "//span[@id=\"recaptcha-anchor\"]";
 

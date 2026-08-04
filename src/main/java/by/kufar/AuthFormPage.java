@@ -18,11 +18,13 @@ public class AuthFormPage extends BasePage {
     private final String TITEL = "//span[@class='TabItem_styles_title__Ij2Va' and text() = 'Вход']";
     private final String INPUT_NAME = "//input[@placeholder='Email или номер телефона\t']";
     private final String INPUT_PASSWORD = "//input[@placeholder='Пароль']";
-    private final String BUTTON_SUBMIT = "//button[contains(@class, 'Button_styles_button--green-accent__vLxrh Button_styles_button--full-width__MZkn5')]";
+    private final String BUTTON_SUBMIT = "//button[contains(@class, 'Button_styles_button--green-accent__vLxrh " +
+            "Button_styles_button--full-width__MZkn5')]";
     private final String ERROR_MESSAGE_NAME = "//span[contains(text(), 'Заполните обязательное поле')]";
     private final String ERROR_MESSAGE_PASSWORD = "//span[contains(text(), 'Введите пароль')]";
     private final String ERROR_MESSAGE_AUTH = "//p[contains(text(), 'Такого профиля не существует')]";
-    private final String ERROR_MESSAGE_BLOCK_PROFILE = "//div[contains(text(), 'Профиль заблокирован и не может быть использован. Возможные причины блокировки ')]";
+    private final String ERROR_MESSAGE_BLOCK_PROFILE = "//div[contains(text(), 'Профиль заблокирован и не может быть " +
+            "использован. Возможные причины блокировки ')]";
     private final String LINK_REGISTOR = "//span[text()= 'Регистрация']";
     private final String LINK_FORGOT_PASSWORD = "//a[@href='https://www.kufar.by/account/recovery']";
     private final String BUTTON_CLOSE = "(//span[@data-testid='popup-close'])[2]";

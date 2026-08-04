@@ -36,6 +36,7 @@ public class LoginTest {
                 "    \"login\": \""+ emiL +"\",\n" +
                 "    \"password\": \"\"\n" +
                 "}";
+
         given()
                 .header("content-type", "application/json;charset=UTF-8")
                 .body(body)
@@ -44,6 +45,7 @@ public class LoginTest {
         .then()
                 .statusCode(400)
                 .body("label.text", equalTo("Не заполнено обязательное поле"));
+
     }
 
     @Test
